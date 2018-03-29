@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.waliahimanshu.canadia.walkthrough.SectionsPagerAdapter$PlaceholderFragment">
+    tools:context=".ui.walkthrough.SectionsPagerAdapter$PlaceholderFragment">
 
     <!--news by Bamdad-->
     <!-- drawJ jojo Lafrite-->

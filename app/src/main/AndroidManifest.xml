@@ -1,4 +1,4 @@
-<manifest package="com.waliahimanshu.canadia"
+<manifest package="com.waliahimanshu.canadia.ui"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -7,18 +7,39 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
         <activity
-            android:name=".walkthrough.WalkthroughActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            >
+            android:name="com.waliahimanshu.canadia.ui.walkthrough.WalkthroughActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+
+        <activity
+            android:label="@string/home_activity_label"
+            android:name="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        </application>
+        <activity
+            android:label="@string/title_item_detail"
+            android:name="com.waliahimanshu.canadia.ui.home.ItemDetailActivity"
+            android:parentActivityName="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity" />
+        </activity>
+
+    </application>
 </manifest>

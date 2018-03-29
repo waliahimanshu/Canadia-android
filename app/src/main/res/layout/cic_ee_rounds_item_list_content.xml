@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="@dimen/text_margin">
+
+    <TextView
+        android:id="@+id/crs_draw_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="February 7, 2018" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/crs_draw_date"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/crs_draw_date"
+        android:layout_toRightOf="@id/crs_draw_date"
+        android:textColor="@color/red_300"
+        android:textSize="12sp"
+        tools:ignore="RelativeOverlap"
+        tools:text="13:29:23 UTC" />
+
+
+    <TextView
+        android:id="@+id/ita_issued"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/crs_draw_date"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="sans-serif"
+        android:paddingTop="10dp"
+        android:textColor="@color/black"
+        tools:text="3000" />
+
+
+    <TextView
+        android:id="@+id/no_of_noi_issued_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/crs_draw_date"
+        android:layout_toEndOf="@id/ita_issued"
+        android:layout_toRightOf="@id/ita_issued"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingTop="10dp"
+        android:text="@string/invitations_issued" />
+
+
+    <TextView
+        android:id="@+id/tie_braking_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tie_braking_label"
+        android:textColor="@color/red_300"
+        android:textSize="12sp"
+        tools:text="February 11, 2018 at 17:03:32 UTC" />
+
+    <TextView
+        android:id="@+id/tie_braking_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ita_issued"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/tie_breaking_rule" />
+
+    <TextView
+        android:id="@+id/crs_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/roboto_bold"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/red_600"
+        android:textColorHighlight="@color/red_700"
+        android:textSize="18sp"
+        tools:text="442" />
+</RelativeLayout>

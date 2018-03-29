@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "960179152912",
+    "firebase_url": "https://android-canadia.firebaseio.com",
+    "project_id": "android-canadia",
+    "storage_bucket": "android-canadia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960179152912:android:6d4c8598a25048dc",
+        "android_client_info": {
+          "package_name": "com.waliahimanshu.canadia.ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960179152912-hjbuf2q1vhfah2p12l3i3rjd7m6hbcp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waliahimanshu.canadia.ui",
+            "certificate_hash": "184f9c50b2fc4dccca82857c8835c8609cf572dd"
+          }
+        },
+        {
+          "client_id": "960179152912-qfrsimdsl7doe3500k6uia5ls9t562ki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB5yXkdrDgTbS1WyPf1r9svRzvy32dX5o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960179152912-qfrsimdsl7doe3500k6uia5ls9t562ki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
