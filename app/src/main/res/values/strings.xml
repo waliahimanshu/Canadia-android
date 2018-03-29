@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Canadia-android</string>
+    <string name="walkthrough_skip">Skip</string>
+    <string name="walkthrough_0_title">Push notification on latest Express Entry draw</string>
+    <string name="walkthrough_0_discription">Get notified will all the details, you need to know about the latest CRS (Comprehensive Ranking System) cut off</string>
+    <string name="walkthrough_1_title">Track your application steps</string>
+    <string name="walkthrough_1_discription">Get in control of dates and time for each step and share your timeline with your friends and family</string>
+    <string name="walkthrough_2_title">Stack of all the official links at one place</string>
+    <string name="walkthrough_2_discription">Keep your shit together by going through all the official links at whenever you need to!</string>
+    <string name="home_activity_label">Express Entry </string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="invitations_issued">Invitations issued</string>
+    <string name="tie_breaking_rule">Tie-breaking rule</string>
+    <string name="filter_express_entry_data">filter</string>
+    <string name="year">Year</string>
+    <string name="crs">Crs</string>
+    <string name="title_activity_filter">FilterActivity</string>
+
 </resources>
