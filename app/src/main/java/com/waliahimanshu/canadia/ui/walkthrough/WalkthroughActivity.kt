@@ -10,7 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.waliahimanshu.canadia.ui.R
-import com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity
+import com.waliahimanshu.canadia.ui.home.ExpressEntryActivity
 
 class WalkthroughActivity :  AppCompatActivity(), ViewPager.OnPageChangeListener{
     /**
@@ -47,7 +47,7 @@ class WalkthroughActivity :  AppCompatActivity(), ViewPager.OnPageChangeListener
         initIndicators()
         nextButton?.setOnClickListener { viewPager?.setCurrentItem(viewPager?.currentItem!!.plus(1), true) }
         previousButton?.setOnClickListener { viewPager?.setCurrentItem(viewPager?.currentItem!!.minus(1), true) }
-        finishButton?.setOnClickListener { startActivity(EERoundOfInvitationsActivity.getLaunchIntent(this)) }
+        finishButton?.setOnClickListener { startActivity(ExpressEntryActivity.getLaunchIntent(this)) }
 
 
         // Hide the status bar.

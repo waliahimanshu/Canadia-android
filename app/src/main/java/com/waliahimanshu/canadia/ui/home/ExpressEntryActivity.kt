@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
 
-class EERoundOfInvitationsActivity : AppCompatActivity() {
+class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -38,7 +38,7 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
 
     companion object {
         fun getLaunchIntent(context: Context): Intent {
-            return Intent(context, EERoundOfInvitationsActivity::class.java)
+            return Intent(context, ExpressEntryActivity::class.java)
         }
 
     }
@@ -69,9 +69,6 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
         nvDrawer = findViewById(R.id.nvView)
         // Setup drawer view
         setupDrawerContent(nvDrawer)
-
-//        setupDrawerToggle();
-
 
         val checkBoxAll = findViewById<CheckBox>(R.id.all_year)
         val checkBox2018 = findViewById<CheckBox>(R.id.year_2018)
@@ -119,8 +116,6 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
     }
 
     private fun selectDrawerItem(menuItem: MenuItem) {
-
-
         menuItem.isChecked = true
         // Set action bar title
         title = menuItem.title
@@ -128,8 +123,8 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
         drawer?.closeDrawer(GravityCompat.END)
     }
 
-    private fun loadDataByCRS(string: String): ArrayList<RoundOfInvitationModel> {
-        val itemList: ArrayList<RoundOfInvitationModel> = java.util.ArrayList()
+    private fun loadDataByCRS(string: String): ArrayList<ExpressEntryModel> {
+        val itemList: ArrayList<ExpressEntryModel> = java.util.ArrayList()
 
         database = database.child("ee_crs").child("2018")
         val queryRef = database.orderByChild("crs_score")
@@ -139,7 +134,7 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 for (item: DataSnapshot in dataSnapshot.children) {
-                    val invitationModel: RoundOfInvitationModel? = item.getValue(RoundOfInvitationModel::class.java)
+                    val invitationModel: ExpressEntryModel? = item.getValue(ExpressEntryModel::class.java)
                     if (invitationModel != null) {
                         itemList.add(invitationModel)
                     }
@@ -157,8 +152,8 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
         return itemList
     }
 
-    private fun loadData(string: String): ArrayList<RoundOfInvitationModel> {
-        val itemList: ArrayList<RoundOfInvitationModel> = java.util.ArrayList()
+    private fun loadData(string: String): ArrayList<ExpressEntryModel> {
+        val itemList: ArrayList<ExpressEntryModel> = java.util.ArrayList()
 
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -168,7 +163,7 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
                 val children = eeCrsTable.children
 
                 for (item: DataSnapshot in children) {
-                    val invitationModel: RoundOfInvitationModel? = item.getValue(RoundOfInvitationModel::class.java)
+                    val invitationModel: ExpressEntryModel? = item.getValue(ExpressEntryModel::class.java)
                     if (invitationModel != null) {
                         itemList.add(invitationModel)
                     }
@@ -187,8 +182,8 @@ class EERoundOfInvitationsActivity : AppCompatActivity() {
     }
 
 
-    private fun setupRecyclerView(recyclerView: RecyclerView, items: ArrayList<RoundOfInvitationModel>) {
-        recyclerView.adapter = RoundOfInvitationsAdapter(this, items, twoPane)
+    private fun setupRecyclerView(recyclerView: RecyclerView, items: ArrayList<ExpressEntryModel>) {
+        recyclerView.adapter = ExpressEntryAdapter(this, items, twoPane)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

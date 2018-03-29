@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_detail.view.*
 
 /**
  * A fragment representing a single Item detail screen.
- * This fragment is either contained in a [EERoundOfInvitationsActivity]
+ * This fragment is either contained in a [ExpressEntryActivity]
  * in two-pane mode (on tablets) or a [ItemDetailActivity]
  * on handsets.
  */
@@ -21,7 +21,7 @@ class ItemDetailFragment : Fragment() {
     /**
      * The dummy content this fragment is presenting.
      */
-    private var mItem: RoundOfInvitationModel? = null
+    private var mItem: ExpressEntryModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

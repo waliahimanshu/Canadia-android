@@ -9,16 +9,16 @@ import android.widget.TextView
 import com.waliahimanshu.canadia.ui.R
 import kotlinx.android.synthetic.main.cic_ee_rounds_item_list_content.view.*
 
-class RoundOfInvitationsAdapter(private val parentActivity: EERoundOfInvitationsActivity,
-                                private val values: List<RoundOfInvitationModel>,
-                                private val twoPane: Boolean) :
-        RecyclerView.Adapter<RoundOfInvitationsAdapter.ViewHolder>() {
+class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
+                          private val values: List<ExpressEntryModel>,
+                          private val twoPane: Boolean) :
+        RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder>() {
 
     private val onClickListener: View.OnClickListener
 
     init {
         onClickListener = View.OnClickListener { v ->
-            val item = v.tag as RoundOfInvitationModel
+            val item = v.tag as ExpressEntryModel
             if (twoPane) {
                 val fragment = ItemDetailFragment().apply {
 //                    arguments = Bundle(ItemDetailFragment).apply {

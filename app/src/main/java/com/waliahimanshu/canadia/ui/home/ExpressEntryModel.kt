@@ -6,7 +6,7 @@ import java.util.*
 
 
 @IgnoreExtraProperties
-class RoundOfInvitationModel {
+class ExpressEntryModel {
 
     @PropertyName("crs_draw_date")
     lateinit var crsDrawDate: String
@@ -27,5 +27,5 @@ class RoundOfInvitationModel {
     /**
      * A map of sample (dummy) items, by ID.
      */
-    val ITEM_MAP: MutableMap<Int, RoundOfInvitationModel> = HashMap()
+    val ITEM_MAP: MutableMap<Int, ExpressEntryModel> = HashMap()
 }
