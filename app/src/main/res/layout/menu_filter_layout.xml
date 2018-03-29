@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="match_parent"
+    android:layout_marginStart="16dp"
+    android:layout_marginBottom="16dp"
+    android:orientation="vertical"
+    android:layout_marginLeft="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="34dp"
+        android:background="@color/grey_300"
+        android:gravity="center"
+        android:text="Year"
+        android:textAlignment="center"
+        android:textAppearance="@style/FilterMenuHeader" />
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_margin="8dp"-->
+    <!--android:background="@android:color/darker_gray" />-->
+
+
+    <CheckBox
+        android:id="@+id/all_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="All" />
+
+    <CheckBox
+        android:id="@+id/year_2018"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2018" />
+
+    <CheckBox
+        android:id="@+id/year_2017"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2017" />
+
+    <CheckBox
+        android:id="@+id/year_2016"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2016" />
+
+    <CheckBox
+        android:id="@+id/year_2015"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2015" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey_300"
+        android:gravity="center"
+        android:text="CRS"
+        android:textAlignment="center"
+        android:textAppearance="@style/FilterMenuHeader" />
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_margin="8dp"-->
+
+    <!--android:background="@android:color/darker_gray" />-->
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/lowestCRS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lowest CSR" />
+
+        <RadioButton
+            android:id="@+id/highestCRS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Highest CSR" />
+    </RadioGroup>
+
+
+</LinearLayout>
