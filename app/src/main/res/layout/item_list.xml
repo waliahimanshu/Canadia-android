@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView android:id="@+id/item_list"
+<android.support.v7.widget.RecyclerView android:id="@+id/recyler_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,5 +9,5 @@
     android:layout_marginRight="16dp"
     android:name="com.waliahimanshu.canadia.ui.home.ItemListFragment"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-    tools:context=".ui.home.EERoundOfInvitationsActivity"
+    tools:context=".home.ExpressEntryActivity"
     tools:listitem="@layout/cic_ee_rounds_item_list_content" />

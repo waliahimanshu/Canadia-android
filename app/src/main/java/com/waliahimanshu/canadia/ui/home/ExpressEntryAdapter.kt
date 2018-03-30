@@ -10,9 +10,11 @@ import com.waliahimanshu.canadia.ui.R
 import kotlinx.android.synthetic.main.cic_ee_rounds_item_list_content.view.*
 
 class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
-                          private val values: List<ExpressEntryModel>,
                           private val twoPane: Boolean) :
         RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder>() {
+
+
+     var expressEntryModels: List<ExpressEntryModel> = arrayListOf()
 
     private val onClickListener: View.OnClickListener
 
@@ -46,7 +48,7 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
+        val item = expressEntryModels[position]
         holder.crsDrawDate.text = item.crsDrawDate
         holder.crsValue.text = item.crsScore
         holder.numberOfIta.text = item.totalItaIssued
@@ -59,7 +61,7 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
     }
 
     override fun getItemCount(): Int {
-        return values.size
+        return expressEntryModels.size
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {

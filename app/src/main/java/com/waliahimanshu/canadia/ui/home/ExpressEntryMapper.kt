@@ -1,5 +1,7 @@
 package com.waliahimanshu.canadia.ui.home
 
-class ExpressEntryMapper {
+import javax.inject.Inject
+
+class ExpressEntryMapper @Inject constructor() {
 
 }
