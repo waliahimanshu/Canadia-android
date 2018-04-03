@@ -23,7 +23,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
+                android:layout_height="?android:actionBarSize" />
 
 
         </android.support.design.widget.AppBarLayout>
@@ -36,6 +36,13 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <include layout="@layout/item_list" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="No Data loaded sorry"
+                tools:background="@color/colorAccent" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -65,8 +72,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@android:color/white"
-        android:fitsSystemWindows="true">
-
+        android:fitsSystemWindows="false">
 
         <include layout="@layout/menu_filter_layout" />
 

@@ -12,8 +12,17 @@
     <string name="invitations_issued">Invitations issued</string>
     <string name="tie_breaking_rule">Tie-breaking rule</string>
     <string name="filter_express_entry_data">filter</string>
-    <string name="year">Year</string>
     <string name="crs">Crs</string>
     <string name="title_activity_filter">FilterActivity</string>
+    <string name="year">Year</string>
+    <string name="all">All</string>
+    <string name="year_2018">2018</string>
+    <string name="year_2017">2017</string>
+    <string name="year_2016">2016</string>
+    <string name="year_2015">2015</string>
+    <string name="crs_label">CRS</string>
+    <string name="lowest_csr">Lowest CSR</string>
+    <string name="highest_csr">Highest CSR</string>
+    <string name="filter_header">Canadia</string>
 
 </resources>

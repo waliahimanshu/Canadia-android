@@ -2,6 +2,7 @@ package com.waliahimanshu.canadia
 
 import android.app.Activity
 import android.app.Application
+import com.google.firebase.database.FirebaseDatabase
 import com.waliahimanshu.canadia.di.component.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -19,6 +20,9 @@ class CanadiaApplication : Application(), HasActivityInjector {
                 .application(this)
                 .build()
                 .inject(this)
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
     }
 
 

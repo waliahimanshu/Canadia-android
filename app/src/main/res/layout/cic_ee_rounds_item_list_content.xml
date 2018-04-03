@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
-        android:textAppearance="?attr/textAppearanceListItem"
+        android:textAppearance="?android:attr/textAppearanceListItem"
         tools:text="February 7, 2018" />
 
 
@@ -79,7 +79,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:fontFamily="@font/roboto_bold"
-        android:textAppearance="?attr/textAppearanceListItem"
+        android:textAppearance="?android:attr/textAppearanceListItem"
         android:textColor="@color/red_600"
         android:textColorHighlight="@color/red_700"
         android:textSize="18sp"

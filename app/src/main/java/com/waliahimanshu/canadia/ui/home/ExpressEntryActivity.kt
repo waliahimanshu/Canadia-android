@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
-import android.widget.RadioButton
+import android.view.View.GONE
+import android.widget.CheckedTextView
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -19,7 +21,11 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
+import kotlinx.android.synthetic.main.menu_filter_layout.*
 import javax.inject.Inject
+
+
+
 
 class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
@@ -33,6 +39,8 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
     @Inject
     lateinit var expressEntryPresenter: ExpressEntryContract.Presenter
+
+
 
     companion object {
         fun getLaunchIntent(context: Context): Intent {
@@ -55,7 +63,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
             twoPane = true
         }
 
-        getFilters()
+        setUpFilters()
         setupRecyclerView()
     }
 
@@ -68,14 +76,13 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
         expressEntryPresenter.start()
     }
 
+
     override fun showData(itemList: ArrayList<ExpressEntryModel>) {
-        expressEntryAdapter.expressEntryModels = itemList
-        expressEntryAdapter.notifyDataSetChanged()
+        expressEntryAdapter.showData(itemList)
     }
 
     override fun showProgressBar(show: Boolean) {
         progressBar?.visibility = View.GONE
-
     }
 
     private fun loadDataByCRS(string: String): ArrayList<ExpressEntryModel> {
@@ -106,6 +113,15 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
         return itemList
     }
 
+    override fun handleDatabaseLoadError(message: String?) {
+        Toast.makeText(baseContext, message, LENGTH_LONG).show()
+    }
+
+    override fun showEmptyState() {
+        recyler_view.visibility = GONE
+
+    }
+
     private fun setupRecyclerView() {
         expressEntryAdapter = ExpressEntryAdapter(this, twoPane)
         recyler_view.adapter = expressEntryAdapter
@@ -126,30 +142,72 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getFilters() {
-        val checkBoxAll = findViewById<CheckBox>(R.id.all_year)
-        val checkBox2018 = findViewById<CheckBox>(R.id.year_2018)
-        val checkBox2017 = findViewById<CheckBox>(R.id.year_2017)
-        val lowestCRS = findViewById<RadioButton>(R.id.lowestCRS)
-        val highyestCRS = findViewById<RadioButton>(R.id.highestCRS)
+    private fun setUpFilters() {
+        all_years.setOnClickListener {
+            if (all_years.isChecked) {
+                disable(all_years)
 
-        checkBoxAll.isChecked = true
-
-        checkBox2018.setOnCheckedChangeListener { button, isChecked ->
-
+            } else {
+                enabled(all_years)
+                disable(year_2018)
+                disable(year_2017)
+                disable(year_2016)
+                disable(year_2015)
             }
-
-        checkBox2017.setOnCheckedChangeListener { button, isChecked ->
-
         }
 
-        highyestCRS.setOnCheckedChangeListener { button, isSelected ->
-            if (isSelected) {
-                loadDataByCRS("2018")
-            } else {
+        year_2018.setOnClickListener {
+            if (year_2018.isChecked) {
+                disable(year_2018)
+                expressEntryPresenter.loadDataFor("2018")
 
+            } else {
+                enabled(year_2018)
+                disable(all_years)
+            }
+        }
+
+        year_2017.setOnClickListener {
+            if (year_2017.isChecked) {
+                disable(year_2017)
+
+            } else {
+                enabled(year_2017)
+                disable(all_years)
+            }
+        }
+
+        year_2016.setOnClickListener {
+            if (year_2016.isChecked) {
+                disable(year_2016)
+
+            } else {
+                enabled(year_2016)
+                disable(all_years)
+
+            }
+        }
+
+        year_2015.setOnClickListener {
+            if (year_2015.isChecked) {
+                disable(year_2015)
+
+            } else {
+                enabled(year_2015)
+                disable(all_years)
             }
         }
     }
 
+    private fun enabled(checkedTextView: CheckedTextView) {
+        checkedTextView.isChecked = true
+        checkedTextView.setCheckMarkDrawable(R.drawable.ic_check_black_24dp)
+        checkedTextView.setTextColor(resources.getColor(R.color.red_600))
+    }
+
+    private fun disable(checkedTextView: CheckedTextView) {
+        checkedTextView.isChecked = false
+        checkedTextView.setCheckMarkDrawable(R.drawable.ic_check_transparent_24dp)
+        checkedTextView.setTextColor(resources.getColor(R.color.grey_500))
+    }
 }

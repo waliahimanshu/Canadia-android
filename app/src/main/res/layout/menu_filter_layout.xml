@@ -1,96 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="16dp"
-    android:layout_marginBottom="16dp"
-    android:orientation="vertical"
-    android:layout_marginLeft="16dp">
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="34dp"
-        android:background="@color/grey_300"
-        android:gravity="center"
-        android:text="Year"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/filter_header"
         android:textAlignment="center"
+        android:textColor="#EE5E65"
+        android:textSize="28sp" />
+
+    <TextView
+        style="@style/text_subheading"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="#D1D5E5"
+        android:gravity="start|center"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/year"
         android:textAppearance="@style/FilterMenuHeader" />
 
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_margin="8dp"-->
-    <!--android:background="@android:color/darker_gray" />-->
+    <CheckedTextView
+        android:id="@+id/all_years"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/ripple"
+        android:checkMark="@drawable/ic_check_black_24dp"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/all"
+        android:textColor="@color/red_600"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
 
 
-    <CheckBox
-        android:id="@+id/all_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="All" />
-
-    <CheckBox
+    <CheckedTextView
         android:id="@+id/year_2018"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2018" />
-
-    <CheckBox
-        android:id="@+id/year_2017"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2017" />
-
-    <CheckBox
-        android:id="@+id/year_2016"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2016" />
-
-    <CheckBox
-        android:id="@+id/year_2015"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2015" />
-
-
-    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/grey_300"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/ripple"
+        android:checkMark="@drawable/ic_check_transparent_24dp"
+        android:checked="false"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
         android:gravity="center"
-        android:text="CRS"
-        android:textAlignment="center"
-        android:textAppearance="@style/FilterMenuHeader" />
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/year_2018"
+        android:textColor="@color/grey_500" />
 
-    <!--<View-->
+    <CheckedTextView
+        android:id="@+id/year_2017"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/ripple"
+        android:checkMark="@drawable/ic_check_transparent_24dp"
+        android:checked="false"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/year_2017"
+        android:textColor="@color/grey_500" />
+
+    <CheckedTextView
+        android:id="@+id/year_2016"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/ripple"
+        android:checkMark="@drawable/ic_check_transparent_24dp"
+        android:checked="false"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/year_2016"
+        android:textColor="@color/grey_500" />
+
+
+    <CheckedTextView
+        android:id="@+id/year_2015"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/ripple"
+        android:checkMark="@drawable/ic_check_transparent_24dp"
+        android:checked="false"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:text="@string/year_2015"
+        android:textColor="@color/grey_500" />
+
+
+    <!--<TextView-->
+    <!--style="@style/text_subheading"-->
     <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:layout_margin="8dp"-->
+    <!--android:layout_height="32dp"-->
+    <!--android:layout_marginBottom="16dp"-->
+    <!--android:layout_marginTop="24dp"-->
+    <!--android:background="#D1D5E5"-->
+    <!--android:gravity="start|center"-->
+    <!--android:paddingEnd="16dp"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingStart="16dp"-->
+    <!--android:text="@string/crs_label"-->
+    <!--android:textAppearance="@style/FilterMenuHeader" />-->
 
-    <!--android:background="@android:color/darker_gray" />-->
+    <!--<RadioGroup-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content">-->
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <!--<RadioButton-->
+    <!--android:id="@+id/lowestCRS"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/lowest_csr" />-->
 
-        <RadioButton
-            android:id="@+id/lowestCRS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lowest CSR" />
-
-        <RadioButton
-            android:id="@+id/highestCRS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Highest CSR" />
-    </RadioGroup>
+    <!--<RadioButton-->
+    <!--android:id="@+id/highestCRS"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/highest_csr" />-->
+    <!--</RadioGroup>-->
 
 
 </LinearLayout>

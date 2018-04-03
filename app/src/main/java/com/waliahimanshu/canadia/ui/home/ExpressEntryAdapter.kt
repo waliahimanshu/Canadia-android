@@ -14,7 +14,7 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
         RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder>() {
 
 
-     var expressEntryModels: List<ExpressEntryModel> = arrayListOf()
+     var expressEntryModels: ArrayList<ExpressEntryModel> = arrayListOf()
 
     private val onClickListener: View.OnClickListener
 
@@ -40,6 +40,19 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
         }
     }
 
+     fun showData(itemList: ArrayList<ExpressEntryModel>) {
+
+         expressEntryModels = itemList
+
+         notifyDataSetChanged()
+
+//        val diffCallback = MyDiffCallback(this.expressEntryModels, itemList)
+//        val diffResult = DiffUtil.calculateDiff(diffCallback)
+//        this.expressEntryModels.clear()
+//        this.expressEntryModels.addAll(itemList)
+//        diffResult.dispatchUpdatesTo(this)
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

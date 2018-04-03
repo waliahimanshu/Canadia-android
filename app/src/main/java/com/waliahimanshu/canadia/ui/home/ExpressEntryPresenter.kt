@@ -11,6 +11,17 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
                                                 private val databaseReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
+    val hashMap: HashMap<String, ArrayList<ExpressEntryModel>> = HashMap()
+
+    override fun loadDataFor(year: String) {
+
+        val arrayList= hashMap[year]
+        if (arrayList != null) {
+            mainView.showData(arrayList)
+        }
+    }
+
+
     override fun stop() {
 
     }
@@ -20,36 +31,41 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
     }
 
 
-    private fun loadData(): ArrayList<ExpressEntryModel> {
-        val itemList: ArrayList<ExpressEntryModel> = java.util.ArrayList()
-
+    private fun loadData() {
         databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            lateinit var allItemList: ArrayList<ExpressEntryModel>
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                val children = dataSnapshot.children
-
-                for (item: DataSnapshot in children) {
-
-                    val invitationModel: ExpressEntryModel? = item.getValue(ExpressEntryModel::class.java)
-                    if (invitationModel != null) {
-                        itemList.add(invitationModel)
+                val child = dataSnapshot.children
+                for (item: DataSnapshot in child) {
+                    allItemList = ArrayList()
+                    for (element: DataSnapshot in item.children) {
+                        val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
+                        if (invitationModel != null) {
+                            allItemList.add(invitationModel)
+                        }
                     }
+                    hashMap[item.key] = allItemList
                 }
-                if (itemList.isNotEmpty()) {
-                    handleSuccess(itemList)
-
+                if (allItemList.isEmpty()) {
+                    mainView.showEmptyState()
+                } else {
+                    handleSuccess(hashMap)
                 }
             }
 
             override fun onCancelled(dataSnapshot: DatabaseError?) {
-                TODO("logging db fetch failed")
+                val message = dataSnapshot?.message
+                mainView.handleDatabaseLoadError(message)
             }
         })
-        return itemList
     }
 
-    private fun handleSuccess(itemList: ArrayList<ExpressEntryModel>) {
+    private fun handleSuccess(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
         mainView.showProgressBar(false)
-        mainView.showData(itemList)
+        val allItemList: ArrayList<ExpressEntryModel> = arrayListOf()
+        for (lis: List<ExpressEntryModel> in itemHashMap.values) {
+            allItemList.addAll(lis)
+        }
+        mainView.showData(allItemList)
     }
 }
