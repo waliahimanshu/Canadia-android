@@ -10,11 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/filter_header"
         android:textAlignment="center"
         android:textColor="#EE5E65"
         android:textSize="28sp" />
+
 
     <TextView
         style="@style/text_subheading"
@@ -27,28 +29,12 @@
         android:text="@string/year"
         android:textAppearance="@style/FilterMenuHeader" />
 
-    <CheckedTextView
-        android:id="@+id/all_years"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_black_24dp"
-        android:clickable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:text="@string/all"
-        android:textColor="@color/red_600"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray"
+        android:visibility="gone" />
 
 
     <CheckedTextView
@@ -58,8 +44,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
         android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_transparent_24dp"
-        android:checked="false"
+        android:checkMark="@drawable/ic_check_black_24dp"
+        android:checked="true"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
@@ -67,8 +53,7 @@
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
-        android:text="@string/year_2018"
-        android:textColor="@color/grey_500" />
+        android:text="@string/year_2018" />
 
     <CheckedTextView
         android:id="@+id/year_2017"
@@ -77,8 +62,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
         android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_transparent_24dp"
-        android:checked="false"
+        android:checkMark="@drawable/ic_check_black_24dp"
+        android:checked="true"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
@@ -86,8 +71,7 @@
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
-        android:text="@string/year_2017"
-        android:textColor="@color/grey_500" />
+        android:text="@string/year_2017" />
 
     <CheckedTextView
         android:id="@+id/year_2016"
@@ -96,8 +80,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
         android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_transparent_24dp"
-        android:checked="false"
+        android:checkMark="@drawable/ic_check_black_24dp"
+        android:checked="true"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
@@ -105,8 +89,7 @@
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
-        android:text="@string/year_2016"
-        android:textColor="@color/grey_500" />
+        android:text="@string/year_2016" />
 
 
     <CheckedTextView
@@ -116,8 +99,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
         android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_transparent_24dp"
-        android:checked="false"
+        android:checkMark="@drawable/ic_check_black_24dp"
+        android:checked="true"
         android:clickable="true"
         android:enabled="true"
         android:focusable="true"
@@ -125,8 +108,7 @@
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
-        android:text="@string/year_2015"
-        android:textColor="@color/grey_500" />
+        android:text="@string/year_2015" />
 
 
     <!--<TextView-->

@@ -24,5 +24,6 @@
     <string name="lowest_csr">Lowest CSR</string>
     <string name="highest_csr">Highest CSR</string>
     <string name="filter_header">Canadia</string>
+    <string name="no_filters_selected">No filters selected, press the filter button above (<annotation src="@drawable/ic_filter">&#2228;</annotation>)\n<i><annotation foregroundColor="@color/red_300">or swipe from the&#160;right</annotation></i></string>
 
 </resources>

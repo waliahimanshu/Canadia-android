@@ -13,8 +13,8 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
                           private val twoPane: Boolean) :
         RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder>() {
 
+    private val allItemList: ArrayList<ExpressEntryModel> = arrayListOf()
 
-     var expressEntryModels: ArrayList<ExpressEntryModel> = arrayListOf()
 
     private val onClickListener: View.OnClickListener
 
@@ -40,17 +40,14 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
         }
     }
 
-     fun showData(itemList: ArrayList<ExpressEntryModel>) {
+     fun showData(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
 
-         expressEntryModels = itemList
+         allItemList.clear()
+         for (lis: List<ExpressEntryModel> in itemHashMap.values) {
+             allItemList.addAll(lis)
+         }
 
-         notifyDataSetChanged()
-
-//        val diffCallback = MyDiffCallback(this.expressEntryModels, itemList)
-//        val diffResult = DiffUtil.calculateDiff(diffCallback)
-//        this.expressEntryModels.clear()
-//        this.expressEntryModels.addAll(itemList)
-//        diffResult.dispatchUpdatesTo(this)
+         this.notifyDataSetChanged()
 
     }
 
@@ -61,7 +58,7 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = expressEntryModels[position]
+        val item = allItemList[position]
         holder.crsDrawDate.text = item.crsDrawDate
         holder.crsValue.text = item.crsScore
         holder.numberOfIta.text = item.totalItaIssued
@@ -69,12 +66,11 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
 
         with(holder.itemView) {
             tag = item
-//            setOnClickListener(onClickListener)
         }
     }
 
     override fun getItemCount(): Int {
-        return expressEntryModels.size
+        return allItemList.size
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {

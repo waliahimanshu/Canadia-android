@@ -11,14 +11,50 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
                                                 private val databaseReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
-    val hashMap: HashMap<String, ArrayList<ExpressEntryModel>> = HashMap()
+    val hashMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
+    private var filterListMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
+
+    private val value: ValueEventListener = object : ValueEventListener {
+        lateinit var allItemList: ArrayList<ExpressEntryModel>
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            val child = dataSnapshot.children
+            for (item: DataSnapshot in child) {
+                allItemList = ArrayList()
+                for (element: DataSnapshot in item.children) {
+                    val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
+                    if (invitationModel != null) {
+                        allItemList.add(invitationModel)
+                    }
+                }
+                hashMap[item.key] = allItemList
+            }
+            if (allItemList.isEmpty()) {
+                mainView.showEmptyState()
+            } else {
+                filterListMap.putAll(hashMap)
+                handleSuccess(hashMap)
+            }
+        }
+
+        override fun onCancelled(dataSnapshot: DatabaseError?) {
+            val message = dataSnapshot?.message
+            mainView.handleDatabaseLoadError(message)
+        }
+    }
 
     override fun loadDataFor(year: String) {
+        val value = hashMap[year]
 
-        val arrayList= hashMap[year]
-        if (arrayList != null) {
-            mainView.showData(arrayList)
+        if (value != null) {
+            filterListMap[year] = value
         }
+        mainView.showData(filterListMap)
+    }
+
+
+    override fun removeDataFor(year: String) {
+        filterListMap.remove(year)
+        mainView.showData(filterListMap)
     }
 
 
@@ -32,40 +68,19 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
 
 
     private fun loadData() {
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            lateinit var allItemList: ArrayList<ExpressEntryModel>
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val child = dataSnapshot.children
-                for (item: DataSnapshot in child) {
-                    allItemList = ArrayList()
-                    for (element: DataSnapshot in item.children) {
-                        val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
-                        if (invitationModel != null) {
-                            allItemList.add(invitationModel)
-                        }
-                    }
-                    hashMap[item.key] = allItemList
-                }
-                if (allItemList.isEmpty()) {
-                    mainView.showEmptyState()
-                } else {
-                    handleSuccess(hashMap)
-                }
-            }
+        if (!hashMap.isEmpty()) {
+            handleSuccess(hashMap)
+        }
+        databaseReference.orderByKey()
+        databaseReference.addListenerForSingleValueEvent(value)
+    }
 
-            override fun onCancelled(dataSnapshot: DatabaseError?) {
-                val message = dataSnapshot?.message
-                mainView.handleDatabaseLoadError(message)
-            }
-        })
+    override fun onDestroy() {
+        databaseReference.removeEventListener(value)
     }
 
     private fun handleSuccess(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
         mainView.showProgressBar(false)
-        val allItemList: ArrayList<ExpressEntryModel> = arrayListOf()
-        for (lis: List<ExpressEntryModel> in itemHashMap.values) {
-            allItemList.addAll(lis)
-        }
-        mainView.showData(allItemList)
+        mainView.showData(itemHashMap)
     }
 }

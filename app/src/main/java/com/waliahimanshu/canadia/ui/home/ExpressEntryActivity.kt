@@ -5,11 +5,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.CheckedTextView
+import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.google.firebase.database.DataSnapshot
@@ -25,8 +29,6 @@ import kotlinx.android.synthetic.main.menu_filter_layout.*
 import javax.inject.Inject
 
 
-
-
 class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
     /**
@@ -39,7 +41,6 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
     @Inject
     lateinit var expressEntryPresenter: ExpressEntryContract.Presenter
-
 
 
     companion object {
@@ -76,9 +77,20 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
         expressEntryPresenter.start()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        expressEntryPresenter.onDestroy()
+    }
 
-    override fun showData(itemList: ArrayList<ExpressEntryModel>) {
-        expressEntryAdapter.showData(itemList)
+    override fun showData(itemList: HashMap<String, ArrayList<ExpressEntryModel>>) {
+        if (itemList.isEmpty()) {
+            showEmptyState()
+
+        } else {
+            recyler_view.visibility = VISIBLE
+            no_result.visibility = GONE
+            expressEntryAdapter.showData(itemList)
+        }
     }
 
     override fun showProgressBar(show: Boolean) {
@@ -89,7 +101,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
         val itemList: ArrayList<ExpressEntryModel> = java.util.ArrayList()
 
         database = database.child("ee_crs").child("2018")
-        val queryRef = database.orderByChild("crs_score")
+        val queryRef = database.orderByKey()
 
 
         queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -119,12 +131,20 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
     override fun showEmptyState() {
         recyler_view.visibility = GONE
+        no_result.visibility = VISIBLE
 
     }
 
     private fun setupRecyclerView() {
         expressEntryAdapter = ExpressEntryAdapter(this, twoPane)
         recyler_view.adapter = expressEntryAdapter
+        val dividerItemDecoration = DividerItemDecoration(recyler_view.context, LinearLayout.VERTICAL)
+        recyler_view.addItemDecoration(dividerItemDecoration)
+
+        val linearLayoutManager = LinearLayoutManager(baseContext);
+        linearLayoutManager.reverseLayout = true;
+        linearLayoutManager.stackFromEnd = true;
+        recyler_view.layoutManager = linearLayoutManager
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -143,47 +163,42 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
     }
 
     private fun setUpFilters() {
-        all_years.setOnClickListener {
-            if (all_years.isChecked) {
-                disable(all_years)
-
-            } else {
-                enabled(all_years)
-                disable(year_2018)
-                disable(year_2017)
-                disable(year_2016)
-                disable(year_2015)
-            }
-        }
 
         year_2018.setOnClickListener {
             if (year_2018.isChecked) {
                 disable(year_2018)
-                expressEntryPresenter.loadDataFor("2018")
+                expressEntryPresenter.removeDataFor("2018")
 
             } else {
                 enabled(year_2018)
-                disable(all_years)
+                expressEntryPresenter.loadDataFor("2018")
+
             }
         }
 
         year_2017.setOnClickListener {
             if (year_2017.isChecked) {
                 disable(year_2017)
+                expressEntryPresenter.removeDataFor("2017")
+
 
             } else {
                 enabled(year_2017)
-                disable(all_years)
+                expressEntryPresenter.loadDataFor("2017")
+
             }
         }
 
         year_2016.setOnClickListener {
             if (year_2016.isChecked) {
                 disable(year_2016)
+                expressEntryPresenter.removeDataFor("2016")
+
 
             } else {
                 enabled(year_2016)
-                disable(all_years)
+                expressEntryPresenter.loadDataFor("2016")
+
 
             }
         }
@@ -191,10 +206,13 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
         year_2015.setOnClickListener {
             if (year_2015.isChecked) {
                 disable(year_2015)
+                expressEntryPresenter.removeDataFor("2015")
+
 
             } else {
                 enabled(year_2015)
-                disable(all_years)
+                expressEntryPresenter.loadDataFor("2015")
+
             }
         }
     }
@@ -202,7 +220,6 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
     private fun enabled(checkedTextView: CheckedTextView) {
         checkedTextView.isChecked = true
         checkedTextView.setCheckMarkDrawable(R.drawable.ic_check_black_24dp)
-        checkedTextView.setTextColor(resources.getColor(R.color.red_600))
     }
 
     private fun disable(checkedTextView: CheckedTextView) {
