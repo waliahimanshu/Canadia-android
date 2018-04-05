@@ -3,6 +3,7 @@
 
     <application
         android:allowBackup="true"
+        android:name="com.waliahimanshu.canadia.CanadiaApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -22,7 +23,7 @@
 
         <activity
             android:label="@string/home_activity_label"
-            android:name="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity"
+            android:name="com.waliahimanshu.canadia.ui.home.ExpressEntryActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
@@ -34,11 +35,11 @@
         <activity
             android:label="@string/title_item_detail"
             android:name="com.waliahimanshu.canadia.ui.home.ItemDetailActivity"
-            android:parentActivityName="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity"
+            android:parentActivityName="com.waliahimanshu.canadia.ui.home.ExpressEntryActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity" />
+                android:value="com.waliahimanshu.canadia.ui.home.ExpressEntryActivity" />
         </activity>
 
     </application>

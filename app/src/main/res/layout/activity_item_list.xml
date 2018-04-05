@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,20 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="com.waliahimanshu.canadia.ui.home.EERoundOfInvitationsActivity">
+        tools:context="com.waliahimanshu.canadia.ui.home.ExpressEntryActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                 />
+                android:layout_height="?android:actionBarSize" />
 
 
         </android.support.design.widget.AppBarLayout>
@@ -39,10 +35,22 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include layout="@layout/item_list" />
+            <include layout="@layout/item_list"
+                />
+
+            <TextView
+                android:id="@+id/no_result"
+                android:textAlignment="center"
+                android:layout_width="250dp"
+                android:lineSpacingExtra="4dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_filters_selected"
+                android:visibility="gone"
+                tools:background="@color/colorAccent" />
 
             <ProgressBar
-                android:id="@+id/progress_bar_home"
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -69,11 +77,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@android:color/white"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="false">
 
-
-        <include layout="@layout/menu_filter_layout"/>
-
+        <include layout="@layout/menu_filter_layout" />
 
 
     </android.support.design.widget.NavigationView>

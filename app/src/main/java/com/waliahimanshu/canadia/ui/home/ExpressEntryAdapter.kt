@@ -9,16 +9,18 @@ import android.widget.TextView
 import com.waliahimanshu.canadia.ui.R
 import kotlinx.android.synthetic.main.cic_ee_rounds_item_list_content.view.*
 
-class RoundOfInvitationsAdapter(private val parentActivity: EERoundOfInvitationsActivity,
-                                private val values: List<RoundOfInvitationModel>,
-                                private val twoPane: Boolean) :
-        RecyclerView.Adapter<RoundOfInvitationsAdapter.ViewHolder>() {
+class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
+                          private val twoPane: Boolean) :
+        RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder>() {
+
+    private val allItemList: ArrayList<ExpressEntryModel> = arrayListOf()
+
 
     private val onClickListener: View.OnClickListener
 
     init {
         onClickListener = View.OnClickListener { v ->
-            val item = v.tag as RoundOfInvitationModel
+            val item = v.tag as ExpressEntryModel
             if (twoPane) {
                 val fragment = ItemDetailFragment().apply {
 //                    arguments = Bundle(ItemDetailFragment).apply {
@@ -38,6 +40,16 @@ class RoundOfInvitationsAdapter(private val parentActivity: EERoundOfInvitations
         }
     }
 
+     fun showData(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
+
+         allItemList.clear()
+         for (lis: List<ExpressEntryModel> in itemHashMap.values) {
+             allItemList.addAll(lis)
+         }
+
+         this.notifyDataSetChanged()
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -46,7 +58,7 @@ class RoundOfInvitationsAdapter(private val parentActivity: EERoundOfInvitations
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
+        val item = allItemList[position]
         holder.crsDrawDate.text = item.crsDrawDate
         holder.crsValue.text = item.crsScore
         holder.numberOfIta.text = item.totalItaIssued
@@ -54,12 +66,11 @@ class RoundOfInvitationsAdapter(private val parentActivity: EERoundOfInvitations
 
         with(holder.itemView) {
             tag = item
-//            setOnClickListener(onClickListener)
         }
     }
 
     override fun getItemCount(): Int {
-        return values.size
+        return allItemList.size
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {

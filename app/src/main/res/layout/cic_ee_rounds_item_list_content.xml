@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
-        android:textAppearance="?attr/textAppearanceListItem"
+        android:textAppearance="?android:attr/textAppearanceListItem"
         tools:text="February 7, 2018" />
 
 
@@ -23,8 +23,8 @@
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/crs_draw_date"
         android:layout_toRightOf="@id/crs_draw_date"
-        android:textColor="@color/red_300"
         android:textSize="12sp"
+        android:textColor="@color/text_tertiary_dark"
         tools:ignore="RelativeOverlap"
         tools:text="13:29:23 UTC" />
 
@@ -37,6 +37,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="sans-serif"
+        android:textStyle="bold"
         android:paddingTop="10dp"
         android:textColor="@color/black"
         tools:text="3000" />
@@ -50,6 +51,7 @@
         android:layout_toEndOf="@id/ita_issued"
         android:layout_toRightOf="@id/ita_issued"
         android:fontFamily="@font/roboto_medium"
+        android:textStyle="bold"
         android:paddingTop="10dp"
         android:text="@string/invitations_issued" />
 
@@ -59,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tie_braking_label"
-        android:textColor="@color/red_300"
+        android:textColor="@color/text_tertiary_dark"
         android:textSize="12sp"
         tools:text="February 11, 2018 at 17:03:32 UTC" />
 
@@ -68,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ita_issued"
+        android:textStyle="bold"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/tie_breaking_rule" />
 
@@ -79,7 +82,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:fontFamily="@font/roboto_bold"
-        android:textAppearance="?attr/textAppearanceListItem"
+        android:textAppearance="?android:attr/textAppearanceListItem"
         android:textColor="@color/red_600"
         android:textColorHighlight="@color/red_700"
         android:textSize="18sp"
