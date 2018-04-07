@@ -25,5 +25,8 @@
     <string name="highest_csr">Highest CSR</string>
     <string name="filter_header">Canadia</string>
     <string name="no_filters_selected">No filters selected, press the filter button above (<annotation src="@drawable/ic_filter">&#2228;</annotation>)\n<i><annotation foregroundColor="@color/red_300">or swipe from the&#160;right</annotation></i></string>
+    <string name="signup_with_google">Sign in with google</string>
+    <string name="error_google_sign_in">Error authenticating with google</string>
+    <string name="sign_out">Sign out</string>
 
 </resources>

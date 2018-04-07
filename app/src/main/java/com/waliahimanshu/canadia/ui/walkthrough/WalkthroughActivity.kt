@@ -11,6 +11,10 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import com.waliahimanshu.canadia.ui.R
 import com.waliahimanshu.canadia.ui.home.ExpressEntryActivity
+import com.waliahimanshu.canadia.ui.login.LoginActivity
+import com.waliahimanshu.canadia.util.PreferencesHelper
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class WalkthroughActivity :  AppCompatActivity(), ViewPager.OnPageChangeListener{
     /**
@@ -29,6 +33,18 @@ class WalkthroughActivity :  AppCompatActivity(), ViewPager.OnPageChangeListener
     private var color2: Int = 0
     private var color3: Int = 0
 
+    @Inject
+    lateinit var preferenceHelper :PreferencesHelper
+
+    override fun onStart() {
+        super.onStart()
+        if(preferenceHelper.isWalkthroughShown)
+        {
+            startActivity(LoginActivity.getLaunchIntent(this))
+            finish()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walkthrough)
@@ -43,11 +59,16 @@ class WalkthroughActivity :  AppCompatActivity(), ViewPager.OnPageChangeListener
         viewPager?.adapter = SectionsPagerAdapter(supportFragmentManager)
         viewPager?.addOnPageChangeListener(this)
 
+        AndroidInjection.inject(this)
+
         initColors()
         initIndicators()
         nextButton?.setOnClickListener { viewPager?.setCurrentItem(viewPager?.currentItem!!.plus(1), true) }
         previousButton?.setOnClickListener { viewPager?.setCurrentItem(viewPager?.currentItem!!.minus(1), true) }
-        finishButton?.setOnClickListener { startActivity(ExpressEntryActivity.getLaunchIntent(this)) }
+        finishButton?.setOnClickListener {
+            startActivity(ExpressEntryActivity.getLaunchIntent(this))
+            preferenceHelper.isWalkthroughShown = true
+        }
 
 
         // Hide the status bar.
