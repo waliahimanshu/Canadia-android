@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,11 +17,18 @@ import android.widget.CheckedTextView
 import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.waliahimanshu.canadia.ui.R
+import com.waliahimanshu.canadia.ui.login.LoginActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.activity_item_list.*
@@ -29,7 +37,7 @@ import kotlinx.android.synthetic.main.menu_filter_layout.*
 import javax.inject.Inject
 
 
-class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
+class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, GoogleApiClient.OnConnectionFailedListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -38,6 +46,11 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
     private var twoPane: Boolean = false
     private lateinit var database: DatabaseReference
     private lateinit var expressEntryAdapter: ExpressEntryAdapter
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var mGoogleApiClient: GoogleApiClient
+    private var currentUser: FirebaseUser? = null
+    private var googleApiAvailability: GoogleApiAvailability = GoogleApiAvailability.getInstance()
+
 
     @Inject
     lateinit var expressEntryPresenter: ExpressEntryContract.Presenter
@@ -53,6 +66,13 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
+        firebaseAuth = FirebaseAuth.getInstance()
+        currentUser = firebaseAuth.currentUser
+
+        googleApiAvailability.makeGooglePlayServicesAvailable(this)
+        mGoogleApiClient = GoogleApiClient.Builder(baseContext)
+                .enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API).build()
+
         AndroidInjection.inject(this)
         setSupportActionBar(toolbar)
 
@@ -62,6 +82,16 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
             // If this view is present, then the
             // activity should be in two-pane mode.
             twoPane = true
+        }
+
+        sign_out.setOnClickListener {
+            currentUser?.photoUrl
+            currentUser?.displayName
+            firebaseAuth.signOut()
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient)
+            startActivity(LoginActivity.getLaunchIntent(this))
+            Toast.makeText(this, "You are signed out from you account ${currentUser?.email} ", LENGTH_LONG).show()
+            this.finish()
         }
 
         setUpFilters()
@@ -80,6 +110,11 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
     override fun onDestroy() {
         super.onDestroy()
         expressEntryPresenter.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        googleApiAvailability.makeGooglePlayServicesAvailable(this)
     }
 
     override fun showData(itemList: HashMap<String, ArrayList<ExpressEntryModel>>) {
@@ -215,6 +250,11 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View {
 
             }
         }
+    }
+
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+        Log.d("ExpressEntryActivity", "onConnectionFailed:" + connectionResult.errorMessage)
+        Toast.makeText(this, connectionResult.errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     private fun enabled(checkedTextView: CheckedTextView) {
