@@ -1,4 +1,4 @@
-package com.waliahimanshu.canadia.walkthrough
+package com.waliahimanshu.canadia.ui.walkthrough
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.waliahimanshu.canadia.R
+import com.waliahimanshu.canadia.ui.R
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

@@ -12,8 +12,27 @@
     <string name="invitations_issued">Invitations issued</string>
     <string name="tie_breaking_rule">Tie-breaking rule</string>
     <string name="filter_express_entry_data">filter</string>
-    <string name="year">Year</string>
     <string name="crs">Crs</string>
     <string name="title_activity_filter">FilterActivity</string>
+    <string name="year">Year</string>
+    <string name="all">All</string>
+    <string name="year_2018">2018</string>
+    <string name="year_2017">2017</string>
+    <string name="year_2016">2016</string>
+    <string name="year_2015">2015</string>
+    <string name="crs_label">CRS</string>
+    <string name="lowest_csr">Lowest CSR</string>
+    <string name="highest_csr">Highest CSR</string>
+    <string name="filter_header">Canadia</string>
+    <string name="no_filters_selected">No filters selected, press the filter button above (<annotation src="@drawable/ic_filter">&#2228;</annotation>)\n<i><annotation foregroundColor="@color/red_300">or swipe from the&#160;right</annotation></i></string>
+    <string name="signup_with_google">Sign in with google</string>
+    <string name="error_google_sign_in">Error authenticating with google</string>
+    <string name="sign_out">Sign out</string>
+
+
+
+    <string name="default_channel_id">default_channel_id</string>
+
+
 
 </resources>

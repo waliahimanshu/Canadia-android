@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.waliahimanshu.canadia"
+        applicationId "com.waliahimanshu.canadia.ui"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -25,11 +25,34 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:support-v13:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     implementation 'com.airbnb.android:lottie:2.2.0'
+
+    implementation 'com.google.firebase:firebase-database:12.0.1'
+    implementation 'com.google.firebase:firebase-core:12.0.1'
+    implementation 'com.google.firebase:firebase-auth:12.0.1'
+    implementation 'com.google.firebase:firebase-messaging:12.0.1'
+
+
+    // Google auth api
+    implementation 'com.google.android.gms:play-services-auth:12.0.1'
+
+    implementation 'com.google.dagger:dagger:2.15'
+    implementation 'com.google.dagger:dagger-android:2.15'
+    implementation 'com.google.dagger:dagger-android-support:2.15' // if you use the support libraries
+    kapt 'com.google.dagger:dagger-compiler:2.15'
+    kapt 'com.google.dagger:dagger-android-processor:2.15'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // ADD THIS AT THE BOTTOM
+    apply plugin: 'com.google.gms.google-services'
 }
