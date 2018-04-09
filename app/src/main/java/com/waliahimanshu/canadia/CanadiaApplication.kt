@@ -21,10 +21,8 @@ class CanadiaApplication : Application(), HasActivityInjector {
                 .build()
                 .inject(this)
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
-
 
     override fun activityInjector(): AndroidInjector<Activity> {
         return activityDispatchingAndroidInjector

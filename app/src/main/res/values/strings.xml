@@ -31,8 +31,8 @@
 
 
 
-    <string name="default_channel_id">default_channel_id</string>
-
+    <string name="default_notification_channel_id">default_channel_id</string>
+    <string name="default_notification_channel_name">Draw update</string>
 
 
 </resources>
