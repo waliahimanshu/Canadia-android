@@ -29,4 +29,10 @@
     <string name="error_google_sign_in">Error authenticating with google</string>
     <string name="sign_out">Sign out</string>
 
+
+
+    <string name="default_channel_id">default_channel_id</string>
+
+
+
 </resources>

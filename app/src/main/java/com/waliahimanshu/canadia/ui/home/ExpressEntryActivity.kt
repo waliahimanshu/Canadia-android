@@ -19,6 +19,7 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -48,6 +49,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var mGoogleApiClient: GoogleApiClient
     private var currentUser: FirebaseUser? = null
+    private var googleApiAvailability: GoogleApiAvailability = GoogleApiAvailability.getInstance()
 
 
     @Inject
@@ -67,6 +69,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         firebaseAuth = FirebaseAuth.getInstance()
         currentUser = firebaseAuth.currentUser
 
+        googleApiAvailability.makeGooglePlayServicesAvailable(this)
         mGoogleApiClient = GoogleApiClient.Builder(baseContext)
                 .enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API).build()
 
@@ -107,6 +110,11 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
     override fun onDestroy() {
         super.onDestroy()
         expressEntryPresenter.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        googleApiAvailability.makeGooglePlayServicesAvailable(this)
     }
 
     override fun showData(itemList: HashMap<String, ArrayList<ExpressEntryModel>>) {
