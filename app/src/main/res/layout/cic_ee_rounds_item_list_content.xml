@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-
-    android:layout_margin="@dimen/text_margin">
+    android:background="@drawable/ripple"
+    android:layout_marginTop="@dimen/text_margin"
+    android:clickable="true"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/crs_draw_date"
@@ -23,10 +25,22 @@
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/crs_draw_date"
         android:layout_toRightOf="@id/crs_draw_date"
-        android:textSize="12sp"
         android:textColor="@color/text_tertiary_dark"
+        android:textSize="12sp"
         tools:ignore="RelativeOverlap"
         tools:text="13:29:23 UTC" />
+
+    <TextView
+        android:id="@+id/no_of_noi_issued_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/crs_draw_date"
+        android:layout_toEndOf="@id/ita_issued"
+        android:layout_toRightOf="@id/ita_issued"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingTop="10dp"
+        android:text="@string/invitations_issued"
+        android:textStyle="bold" />
 
 
     <TextView
@@ -37,42 +51,29 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:fontFamily="sans-serif"
-        android:textStyle="bold"
         android:paddingTop="10dp"
         android:textColor="@color/black"
+        android:textStyle="bold"
         tools:text="3000" />
 
 
-    <TextView
-        android:id="@+id/no_of_noi_issued_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/crs_draw_date"
-        android:layout_toEndOf="@id/ita_issued"
-        android:layout_toRightOf="@id/ita_issued"
-        android:fontFamily="@font/roboto_medium"
-        android:textStyle="bold"
-        android:paddingTop="10dp"
-        android:text="@string/invitations_issued" />
+    <!--<TextView-->
+    <!--android:id="@+id/tie_braking_date"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/tie_braking_label"-->
+    <!--android:textColor="@color/text_tertiary_dark"-->
+    <!--android:textSize="12sp"-->
+    <!--tools:text="February 11, 2018 at 17:03:32 UTC" />-->
 
-
-    <TextView
-        android:id="@+id/tie_braking_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tie_braking_label"
-        android:textColor="@color/text_tertiary_dark"
-        android:textSize="12sp"
-        tools:text="February 11, 2018 at 17:03:32 UTC" />
-
-    <TextView
-        android:id="@+id/tie_braking_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ita_issued"
-        android:textStyle="bold"
-        android:fontFamily="@font/roboto_medium"
-        android:text="@string/tie_breaking_rule" />
+    <!--<TextView-->
+    <!--android:id="@+id/tie_braking_label"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@id/ita_issued"-->
+    <!--android:textStyle="bold"-->
+    <!--android:fontFamily="@font/roboto_medium"-->
+    <!--android:text="@string/tie_breaking_rule" />-->
 
     <TextView
         android:id="@+id/crs_value"

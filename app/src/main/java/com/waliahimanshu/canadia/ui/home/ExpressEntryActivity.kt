@@ -95,7 +95,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         }
 
         setUpFilters()
-        setupRecyclerView()
+//        setupRecyclerView()
     }
 
     override fun setPresenter(presenter: ExpressEntryContract.Presenter) {
@@ -117,15 +117,24 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         googleApiAvailability.makeGooglePlayServicesAvailable(this)
     }
 
-    override fun showData(itemList: HashMap<String, ArrayList<ExpressEntryModel>>) {
+    override fun showData(itemList: ArrayList<ExpressEntryModel>) {
         if (itemList.isEmpty()) {
             showEmptyState()
 
         } else {
             recyler_view.visibility = VISIBLE
             no_result.visibility = GONE
-            expressEntryAdapter.showData(itemList)
+            setupRecyclerView(itemList)
         }
+
+    }
+
+    override fun removeData(filterList: MutableList<ExpressEntryModel>) {
+        expressEntryAdapter.removeData(filterList)
+    }
+
+    override fun addData(filterCopyList: MutableList<ExpressEntryModel>) {
+        expressEntryAdapter.addData(filterCopyList)
     }
 
     override fun showProgressBar(show: Boolean) {
@@ -170,9 +179,8 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
     }
 
-    private fun setupRecyclerView() {
-        expressEntryAdapter = ExpressEntryAdapter(this, twoPane)
-        recyler_view.adapter = expressEntryAdapter
+    private fun setupRecyclerView(itemList: ArrayList<ExpressEntryModel>) {
+        expressEntryAdapter = ExpressEntryAdapter(this, twoPane, itemList)
         val dividerItemDecoration = DividerItemDecoration(recyler_view.context, LinearLayout.VERTICAL)
         recyler_view.addItemDecoration(dividerItemDecoration)
 
@@ -180,6 +188,8 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         linearLayoutManager.reverseLayout = true;
         linearLayoutManager.stackFromEnd = true;
         recyler_view.layoutManager = linearLayoutManager
+        recyler_view.adapter = expressEntryAdapter
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -206,7 +216,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
             } else {
                 enabled(year_2018)
-                expressEntryPresenter.loadDataFor("2018")
+                expressEntryPresenter.addDataFor("2018")
 
             }
         }
@@ -219,7 +229,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
             } else {
                 enabled(year_2017)
-                expressEntryPresenter.loadDataFor("2017")
+                expressEntryPresenter.addDataFor("2017")
 
             }
         }
@@ -232,7 +242,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
             } else {
                 enabled(year_2016)
-                expressEntryPresenter.loadDataFor("2016")
+                expressEntryPresenter.addDataFor("2016")
 
 
             }
@@ -246,7 +256,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
             } else {
                 enabled(year_2015)
-                expressEntryPresenter.loadDataFor("2015")
+                expressEntryPresenter.addDataFor("2015")
 
             }
         }

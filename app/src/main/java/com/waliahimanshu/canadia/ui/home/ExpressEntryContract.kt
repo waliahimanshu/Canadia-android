@@ -6,13 +6,15 @@ import com.waliahimanshu.canadia.util.BaseView
 interface ExpressEntryContract {
     interface View : BaseView<Presenter> {
         fun showProgressBar(show: Boolean)
-        fun showData(itemList: HashMap<String, ArrayList<ExpressEntryModel>>)
         fun handleDatabaseLoadError(message: String?)
         fun showEmptyState()
+        fun showData(itemList: ArrayList<ExpressEntryModel>)
+        fun removeData(filterList: MutableList<ExpressEntryModel>)
+        fun addData(filterCopyList: MutableList<ExpressEntryModel>)
     }
 
     interface Presenter : BasePresenter {
-        fun loadDataFor(year: String)
+        fun addDataFor(year: String)
         fun removeDataFor(year: String)
         fun onDestroy()
     }

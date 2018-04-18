@@ -9,21 +9,22 @@ import android.widget.TextView
 import com.waliahimanshu.canadia.ui.R
 import kotlinx.android.synthetic.main.cic_ee_rounds_item_list_content.view.*
 
-class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
-                          private val twoPane: Boolean) :
-        RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder>() {
+class ExpressEntryAdapter :
+        RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder> {
 
-    private val allItemList: ArrayList<ExpressEntryModel> = arrayListOf()
+    private val parentActivity: ExpressEntryActivity
+    private val twoPane: Boolean
+    private val itemList: ArrayList<ExpressEntryModel>
 
-
-    private val onClickListener: View.OnClickListener
-
-    init {
+    constructor(parentActivity: ExpressEntryActivity, twoPane: Boolean, itemList: ArrayList<ExpressEntryModel>) : super() {
+        this.parentActivity = parentActivity
+        this.twoPane = twoPane
+        this.itemList = itemList
         onClickListener = View.OnClickListener { v ->
             val item = v.tag as ExpressEntryModel
             if (twoPane) {
                 val fragment = ItemDetailFragment().apply {
-//                    arguments = Bundle(ItemDetailFragment).apply {
+                    //                    arguments = Bundle(ItemDetailFragment).apply {
 //                        putInt(ItemDetailFragment.ARG_ITEM_ID, 1)
 //                    }
                 }
@@ -40,15 +41,23 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
         }
     }
 
-     fun showData(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
 
-         allItemList.clear()
-         for (lis: List<ExpressEntryModel> in itemHashMap.values) {
-             allItemList.addAll(lis)
-         }
+    private val onClickListener: View.OnClickListener
 
-         this.notifyDataSetChanged()
+    fun removeData(filterList: MutableList<ExpressEntryModel>) {
 
+        val initSize = itemList.size
+        itemList.clear()
+        itemList.addAll(filterList)
+        notifyItemRangeInserted(initSize, filterList.size)
+
+    }
+
+    fun addData(filterCopyList: MutableList<ExpressEntryModel>) {
+        val initSize = itemList.size
+        itemList.clear()
+        itemList.addAll(filterCopyList)
+        notifyItemRangeInserted(initSize, filterCopyList.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -58,11 +67,11 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = allItemList[position]
-        holder.crsDrawDate.text = item.crsDrawDate
+        val item = itemList[position]
+        holder.crsDrawDate.text = item.crsDrawDate.substringBefore("at").trim()
         holder.crsValue.text = item.crsScore
         holder.numberOfIta.text = item.totalItaIssued
-        holder.tieBreakerDate.text = item.tieBreakerDate
+//        holder.tieBreakerDate.text = item.tieBreakerDate
 
         with(holder.itemView) {
             tag = item
@@ -70,13 +79,13 @@ class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
     }
 
     override fun getItemCount(): Int {
-        return allItemList.size
+        return itemList.size
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val crsDrawDate: TextView = mView.crs_draw_date
         val crsValue: TextView = mView.crs_value
         val numberOfIta: TextView = mView.ita_issued
-        val tieBreakerDate: TextView = mView.tie_braking_date
+//        val tieBreakerDate: TextView = mView.tie_braking_date
     }
 }

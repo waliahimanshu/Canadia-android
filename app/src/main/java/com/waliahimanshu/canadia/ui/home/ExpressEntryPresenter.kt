@@ -11,28 +11,27 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
                                                 private val databaseReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
-    val hashMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
-    private var filterListMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
+    var originalList: ArrayList<ExpressEntryModel> = arrayListOf()
+    private var filterCopyList: MutableList<ExpressEntryModel> = arrayListOf()
 
     private val value: ValueEventListener = object : ValueEventListener {
-        lateinit var allItemList: ArrayList<ExpressEntryModel>
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val child = dataSnapshot.children
             for (item: DataSnapshot in child) {
-                allItemList = ArrayList()
                 for (element: DataSnapshot in item.children) {
                     val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
                     if (invitationModel != null) {
-                        allItemList.add(invitationModel)
+                        invitationModel.year = item.key
+                        originalList.add(invitationModel)
                     }
                 }
-                hashMap[item.key] = allItemList
             }
-            if (allItemList.isEmpty()) {
+            if (originalList.isEmpty()) {
                 mainView.showEmptyState()
             } else {
-                filterListMap.putAll(hashMap)
-                handleSuccess(hashMap)
+                filterCopyList.addAll(originalList)
+                mainView.showProgressBar(false)
+                mainView.showData(originalList)
             }
         }
 
@@ -42,19 +41,25 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
         }
     }
 
-    override fun loadDataFor(year: String) {
-        val value = hashMap[year]
+    override fun addDataFor(year: String) {
 
-        if (value != null) {
-            filterListMap[year] = value
+        val listToBeAdded = arrayListOf<ExpressEntryModel>()
+        for (expressEntryModel in originalList) {
+            if(expressEntryModel.year == year){
+                listToBeAdded.add(expressEntryModel)
+            }
         }
-        mainView.showData(filterListMap)
+        filterCopyList.addAll(listToBeAdded)
+        mainView.addData(filterCopyList)
     }
 
 
     override fun removeDataFor(year: String) {
-        filterListMap.remove(year)
-        mainView.showData(filterListMap)
+//        filterListMap.remove(year)
+//        mainView.showData(filterListMap)
+
+         filterCopyList.removeAll { f -> f.year == year }
+        mainView.removeData(filterCopyList)
     }
 
 
@@ -63,14 +68,13 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
     }
 
     override fun start() {
-        loadData()
+        if (filterCopyList.isEmpty()) {
+            loadData()
+        }
     }
 
 
     private fun loadData() {
-        if (!hashMap.isEmpty()) {
-            handleSuccess(hashMap)
-        }
         databaseReference.orderByKey()
         databaseReference.addListenerForSingleValueEvent(value)
     }
@@ -79,8 +83,4 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
         databaseReference.removeEventListener(value)
     }
 
-    private fun handleSuccess(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
-        mainView.showProgressBar(false)
-        mainView.showData(itemHashMap)
-    }
 }
