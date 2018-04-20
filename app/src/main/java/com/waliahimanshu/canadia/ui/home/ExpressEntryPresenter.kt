@@ -1,30 +1,31 @@
 package com.waliahimanshu.canadia.ui.home
 
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import javax.inject.Inject
 
 
+
+
 class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEntryContract.View,
-                                                private val databaseReference: DatabaseReference,
+                                                private val eeCrsReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
     var originalList: ArrayList<ExpressEntryModel> = arrayListOf()
     private var filterCopyList: MutableList<ExpressEntryModel> = arrayListOf()
 
-    private val value: ValueEventListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val child = dataSnapshot.children
-            for (item: DataSnapshot in child) {
-                for (element: DataSnapshot in item.children) {
-                    val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
-                    if (invitationModel != null) {
-                        invitationModel.year = item.key
-                        originalList.add(invitationModel)
-                    }
-                }
+
+    private var childEventListener: ChildEventListener = object : ChildEventListener {
+        override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+
+            val invitationModel: ExpressEntryModel? = dataSnapshot.getValue(ExpressEntryModel::class.java)
+
+            if (invitationModel != null) {
+                invitationModel.year = dataSnapshot.key
+                originalList.add(invitationModel)
+
             }
             if (originalList.isEmpty()) {
                 mainView.showEmptyState()
@@ -35,9 +36,17 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
             }
         }
 
-        override fun onCancelled(dataSnapshot: DatabaseError?) {
-            val message = dataSnapshot?.message
-            mainView.handleDatabaseLoadError(message)
+
+        override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+        }
+
+        override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
         }
     }
 
@@ -75,12 +84,12 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
 
 
     private fun loadData() {
-        databaseReference.orderByKey()
-        databaseReference.addListenerForSingleValueEvent(value)
+        eeCrsReference.orderByKey()
+//        eeCrsReference.keepSynced(true)
+        eeCrsReference.child("2017").addChildEventListener(childEventListener)
     }
 
     override fun onDestroy() {
-        databaseReference.removeEventListener(value)
+        eeCrsReference.removeEventListener(childEventListener)
     }
-
 }

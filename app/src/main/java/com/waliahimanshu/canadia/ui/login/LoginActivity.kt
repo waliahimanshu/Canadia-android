@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
     /**
      *  Check for existing Google Sign In account, if the user is already signed in
-        the GoogleSignInAccount will be non - null.
+    the GoogleSignInAccount will be non - null.
      */
     override fun onStart() {
         super.onStart()
@@ -113,8 +113,15 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                 firebaseAuthWithGoogle(account)
             }
         } else {
+            Log.w(tag, "GoogleSignInResult +" + result.status.statusCode, null)
 
-            Toast.makeText(this, R.string.error_google_sign_in, Toast.LENGTH_SHORT).show()
+            if (result.status.statusCode == 7) {
+                Toast.makeText(this, "Google login failed, check your internet connections", Toast.LENGTH_SHORT).show()
+
+            } else {
+                Toast.makeText(this, R.string.error_google_sign_in, Toast.LENGTH_SHORT).show()
+
+            }
         }
     }
 
