@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fitsSystemWindows="false"
     android:orientation="vertical">
 
@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/roboto_medium"
         android:text="@string/filter_header"
         android:textAlignment="center"
@@ -36,111 +36,95 @@
         android:background="@android:color/darker_gray"
         android:visibility="gone" />
 
-
-    <CheckedTextView
-        android:id="@+id/year_2018"
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_black_24dp"
-        android:checked="true"
-        android:clickable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RadioButton
+            android:id="@+id/year_2018"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_margin="4dp"
+            android:checked="true"
+            android:paddingRight="6dp"
+            android:background="@drawable/ripple"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end"
+            android:text="@string/year_2018"
+           />
+
+
+
+        <RadioButton
+            android:id="@+id/year_2017"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:paddingRight="6dp"
+            android:background="@drawable/ripple"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end|center"
+            android:text="@string/year_2017" />
+
+
+
+        <RadioButton
+            android:id="@+id/year_2016"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:paddingRight="6dp"
+            android:background="@drawable/ripple"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end"
+            android:text="@string/year_2016" />
+
+        <RadioButton
+            android:id="@+id/year_2015"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:paddingRight="6dp"
+            android:background="@drawable/ripple"
+            android:textAlignment="textEnd"
+            android:layout_gravity="end"
+            android:text="@string/year_2015" />
+
+    </RadioGroup>
+
+    <TextView
+        style="@style/text_subheading"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
+        android:background="#D1D5E5"
+        android:gravity="start|center"
         android:paddingEnd="16dp"
         android:paddingLeft="16dp"
         android:paddingStart="16dp"
-        android:text="@string/year_2018" />
+        android:text="@string/crs_label"
+        android:textAppearance="@style/FilterMenuHeader" />
 
-    <CheckedTextView
-        android:id="@+id/year_2017"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_black_24dp"
-        android:checked="true"
-        android:clickable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:text="@string/year_2017" />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
 
-    <CheckedTextView
-        android:id="@+id/year_2016"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_black_24dp"
-        android:checked="true"
-        android:clickable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:text="@string/year_2016" />
+        <RadioButton
+            android:id="@+id/lowestCRS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lowest_csr" />
 
-
-    <CheckedTextView
-        android:id="@+id/year_2015"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/ripple"
-        android:checkMark="@drawable/ic_check_black_24dp"
-        android:checked="true"
-        android:clickable="true"
-        android:enabled="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:text="@string/year_2015" />
-
-
-    <!--<TextView-->
-    <!--style="@style/text_subheading"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="32dp"-->
-    <!--android:layout_marginBottom="16dp"-->
-    <!--android:layout_marginTop="24dp"-->
-    <!--android:background="#D1D5E5"-->
-    <!--android:gravity="start|center"-->
-    <!--android:paddingEnd="16dp"-->
-    <!--android:paddingLeft="16dp"-->
-    <!--android:paddingStart="16dp"-->
-    <!--android:text="@string/crs_label"-->
-    <!--android:textAppearance="@style/FilterMenuHeader" />-->
-
-    <!--<RadioGroup-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content">-->
-
-    <!--<RadioButton-->
-    <!--android:id="@+id/lowestCRS"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/lowest_csr" />-->
-
-    <!--<RadioButton-->
-    <!--android:id="@+id/highestCRS"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="@string/highest_csr" />-->
-    <!--</RadioGroup>-->
+        <RadioButton
+            android:id="@+id/highestCRS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/highest_csr" />
+    </RadioGroup>
 
 
     <Button
@@ -150,6 +134,6 @@
 
         android:background="@drawable/ripple"
         android:gravity="center"
-        android:text="@string/sign_out"/>
+        android:text="@string/sign_out" />
 
 </LinearLayout>

@@ -7,13 +7,14 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.CheckedTextView
+import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
@@ -23,10 +24,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.waliahimanshu.canadia.ui.R
 import com.waliahimanshu.canadia.ui.login.LoginActivity
 import dagger.android.AndroidInjection
@@ -38,6 +36,9 @@ import javax.inject.Inject
 
 
 class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, GoogleApiClient.OnConnectionFailedListener {
+    override fun setToolbarTitle(year: String) {
+        toolbar.title = year
+    }
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -76,6 +77,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         AndroidInjection.inject(this)
         setSupportActionBar(toolbar)
 
+
         if (item_detail_container != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -95,16 +97,10 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         }
 
         setUpFilters()
-//        setupRecyclerView()
     }
 
     override fun setPresenter(presenter: ExpressEntryContract.Presenter) {
         expressEntryPresenter = presenter
-    }
-
-    override fun onStart() {
-        super.onStart()
-        expressEntryPresenter.start()
     }
 
     override fun onDestroy() {
@@ -125,48 +121,13 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
             recyler_view.visibility = VISIBLE
             no_result.visibility = GONE
             setupRecyclerView(itemList)
+            runLayoutAnimation(recyler_view)
+
         }
-
-    }
-
-    override fun removeData(filterList: MutableList<ExpressEntryModel>) {
-        expressEntryAdapter.removeData(filterList)
-    }
-
-    override fun addData(filterCopyList: MutableList<ExpressEntryModel>) {
-        expressEntryAdapter.addData(filterCopyList)
     }
 
     override fun showProgressBar(show: Boolean) {
         progressBar?.visibility = View.GONE
-    }
-
-    private fun loadDataByCRS(string: String): ArrayList<ExpressEntryModel> {
-        val itemList: ArrayList<ExpressEntryModel> = java.util.ArrayList()
-
-        database = database.child("ee_crs").child("2018")
-        val queryRef = database.orderByKey()
-
-
-        queryRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                for (item: DataSnapshot in dataSnapshot.children) {
-                    val invitationModel: ExpressEntryModel? = item.getValue(ExpressEntryModel::class.java)
-                    if (invitationModel != null) {
-                        itemList.add(invitationModel)
-                    }
-                }
-                if (itemList.isNotEmpty()) {
-                    progressBar?.visibility = View.GONE
-                }
-            }
-
-            override fun onCancelled(dataSnapshot: DatabaseError?) {
-                TODO("logging db fetch failed")
-            }
-        })
-        return itemList
     }
 
     override fun handleDatabaseLoadError(message: String?) {
@@ -185,11 +146,21 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         recyler_view.addItemDecoration(dividerItemDecoration)
 
         val linearLayoutManager = LinearLayoutManager(baseContext);
-        linearLayoutManager.reverseLayout = true;
-        linearLayoutManager.stackFromEnd = true;
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
         recyler_view.layoutManager = linearLayoutManager
         recyler_view.adapter = expressEntryAdapter
 
+    }
+
+    private fun runLayoutAnimation(recyclerView: RecyclerView) {
+        val context = recyclerView.context
+        val loadLayoutAnimation =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down)
+
+        recyclerView.layoutAnimation = loadLayoutAnimation
+        recyclerView.adapter.notifyDataSetChanged()
+        recyclerView.scheduleLayoutAnimation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -207,74 +178,40 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+        Log.d("ExpressEntryActivity", "onConnectionFailed:" + connectionResult.errorMessage)
+        Toast.makeText(this, connectionResult.errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
     private fun setUpFilters() {
+        if (year_2018.isChecked) {
+            expressEntryPresenter.start()
+        }
 
         year_2018.setOnClickListener {
             if (year_2018.isChecked) {
-                disable(year_2018)
-                expressEntryPresenter.removeDataFor("2018")
-
-            } else {
-                enabled(year_2018)
-                expressEntryPresenter.addDataFor("2018")
-
+                expressEntryPresenter.showDataFor("2018")
             }
         }
 
         year_2017.setOnClickListener {
             if (year_2017.isChecked) {
-                disable(year_2017)
-                expressEntryPresenter.removeDataFor("2017")
-
-
-            } else {
-                enabled(year_2017)
-                expressEntryPresenter.addDataFor("2017")
-
+                expressEntryPresenter.showDataFor("2017")
             }
         }
 
         year_2016.setOnClickListener {
             if (year_2016.isChecked) {
-                disable(year_2016)
-                expressEntryPresenter.removeDataFor("2016")
-
-
-            } else {
-                enabled(year_2016)
-                expressEntryPresenter.addDataFor("2016")
-
+                expressEntryPresenter.showDataFor("2016")
 
             }
         }
 
         year_2015.setOnClickListener {
             if (year_2015.isChecked) {
-                disable(year_2015)
-                expressEntryPresenter.removeDataFor("2015")
-
-
-            } else {
-                enabled(year_2015)
-                expressEntryPresenter.addDataFor("2015")
-
+                expressEntryPresenter.showDataFor("2015")
             }
         }
     }
 
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        Log.d("ExpressEntryActivity", "onConnectionFailed:" + connectionResult.errorMessage)
-        Toast.makeText(this, connectionResult.errorMessage, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun enabled(checkedTextView: CheckedTextView) {
-        checkedTextView.isChecked = true
-        checkedTextView.setCheckMarkDrawable(R.drawable.ic_check_black_24dp)
-    }
-
-    private fun disable(checkedTextView: CheckedTextView) {
-        checkedTextView.isChecked = false
-        checkedTextView.setCheckMarkDrawable(R.drawable.ic_check_transparent_24dp)
-        checkedTextView.setTextColor(resources.getColor(R.color.grey_500))
-    }
 }

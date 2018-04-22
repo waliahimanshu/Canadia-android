@@ -1,41 +1,60 @@
 package com.waliahimanshu.canadia.ui.home
 
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.*
 import javax.inject.Inject
-
-
 
 
 class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEntryContract.View,
                                                 private val eeCrsReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
-    var originalList: ArrayList<ExpressEntryModel> = arrayListOf()
-    private var filterCopyList: MutableList<ExpressEntryModel> = arrayListOf()
+    var currentYearList: ArrayList<ExpressEntryModel> = arrayListOf()
+    val allYearMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
+
+    private val singleValueEventListener: ValueEventListener = object : ValueEventListener {
+        lateinit var allItemList: ArrayList<ExpressEntryModel>
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            val child = dataSnapshot.children
+            for (item: DataSnapshot in child) {
+                allItemList = ArrayList()
+                for (element: DataSnapshot in item.children) {
+                    val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
+                    if (invitationModel != null) {
+                        allItemList.add(invitationModel)
+                    }
+                }
+                allYearMap[item.key] = allItemList
+            }
+            if (allItemList.isEmpty()) {
+                mainView.showEmptyState()
+            }
+        }
+
+        override fun onCancelled(dataSnapshot: DatabaseError?) {
+            val message = dataSnapshot?.message
+            mainView.handleDatabaseLoadError(message)
+        }
+    }
 
 
     private var childEventListener: ChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
 
+//            if(allYearMap.get("2018")?.isEmpty()){  }
+
+
             val invitationModel: ExpressEntryModel? = dataSnapshot.getValue(ExpressEntryModel::class.java)
 
             if (invitationModel != null) {
                 invitationModel.year = dataSnapshot.key
-                originalList.add(invitationModel)
-
-            }
-            if (originalList.isEmpty()) {
-                mainView.showEmptyState()
-            } else {
-                filterCopyList.addAll(originalList)
+                currentYearList.add(invitationModel)
                 mainView.showProgressBar(false)
-                mainView.showData(originalList)
-            }
-        }
+                mainView.showData(currentYearList)
+//                mainView.setToolbarTitle()
 
+            }
+
+        }
 
         override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
         }
@@ -50,44 +69,25 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
         }
     }
 
-    override fun addDataFor(year: String) {
+    override fun start() {
+        eeCrsReference.orderByKey()
+        eeCrsReference.child("2018").addChildEventListener(childEventListener)
+        eeCrsReference.addListenerForSingleValueEvent(singleValueEventListener)
+    }
 
-        val listToBeAdded = arrayListOf<ExpressEntryModel>()
-        for (expressEntryModel in originalList) {
-            if(expressEntryModel.year == year){
-                listToBeAdded.add(expressEntryModel)
-            }
+    override fun showDataFor(year: String) {
+        mainView.showProgressBar(false)
+        val yearData = allYearMap[year]
+        if (yearData != null) {
+            mainView.showData(yearData)
+            mainView.setToolbarTitle(year)
         }
-        filterCopyList.addAll(listToBeAdded)
-        mainView.addData(filterCopyList)
     }
-
-
-    override fun removeDataFor(year: String) {
-//        filterListMap.remove(year)
-//        mainView.showData(filterListMap)
-
-         filterCopyList.removeAll { f -> f.year == year }
-        mainView.removeData(filterCopyList)
-    }
-
 
     override fun stop() {
 
     }
 
-    override fun start() {
-        if (filterCopyList.isEmpty()) {
-            loadData()
-        }
-    }
-
-
-    private fun loadData() {
-        eeCrsReference.orderByKey()
-//        eeCrsReference.keepSynced(true)
-        eeCrsReference.child("2017").addChildEventListener(childEventListener)
-    }
 
     override fun onDestroy() {
         eeCrsReference.removeEventListener(childEventListener)

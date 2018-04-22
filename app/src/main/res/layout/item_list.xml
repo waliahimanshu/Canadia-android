@@ -7,4 +7,8 @@
     android:layout_height="match_parent"
     android:name="com.waliahimanshu.canadia.ui.home.ItemListFragment"
     tools:context=".home.ExpressEntryActivity"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:layoutAnimation="@anim/layout_fall_down"
     tools:listitem="@layout/cic_ee_rounds_item_list_content" />
+

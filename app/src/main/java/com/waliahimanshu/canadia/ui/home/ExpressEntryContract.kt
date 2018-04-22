@@ -9,14 +9,11 @@ interface ExpressEntryContract {
         fun handleDatabaseLoadError(message: String?)
         fun showEmptyState()
         fun showData(itemList: ArrayList<ExpressEntryModel>)
-        fun removeData(filterList: MutableList<ExpressEntryModel>)
-        fun addData(filterCopyList: MutableList<ExpressEntryModel>)
+        fun setToolbarTitle(year: String)
     }
 
     interface Presenter : BasePresenter {
-        fun addDataFor(year: String)
-        fun removeDataFor(year: String)
+        fun showDataFor(year: String)
         fun onDestroy()
     }
-
 }

@@ -22,21 +22,6 @@ class ExpressEntryAdapter :
     }
 
 
-    fun removeData(filterList: MutableList<ExpressEntryModel>) {
-        val initSize = itemList.size
-        itemList.clear()
-        itemList.addAll(filterList)
-        notifyItemRangeInserted(initSize, filterList.size)
-
-    }
-
-    fun addData(filterCopyList: MutableList<ExpressEntryModel>) {
-        val initSize = itemList.size
-        itemList.clear()
-        itemList.addAll(filterCopyList)
-        notifyItemRangeInserted(initSize, filterCopyList.size)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.cic_ee_rounds_item_list_content, parent, false)
