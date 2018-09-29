@@ -2,39 +2,15 @@ package com.waliahimanshu.canadia.ui.walkthrough
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.waliahimanshu.canadia.ui.R
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
-class SectionsPagerAdapter constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
-
-    override fun getItem(pos: Int): Fragment {
-        return when (pos) {
-            0 -> PlaceholderFragment.newInstance(0)
-            1 -> Section1Fragment.newInstance(1)
-            else -> Section2Fragment.newInstance(2)
-        }
-    }
-
-    override fun getCount(): Int {
-        return 3
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    class PlaceholderFragment : Fragment() {
+class Section2Fragment : Fragment() {
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-            return inflater.inflate(R.layout.fragment_walkthrough_0, container, false)
+            return inflater.inflate(R.layout.fragment_walkthrough_2, container, false)
         }
 
         companion object {
@@ -48,8 +24,8 @@ class SectionsPagerAdapter constructor(fm: FragmentManager) : FragmentPagerAdapt
              * Returns a new instance of this fragment for the given section
              * number.
              */
-            fun newInstance(sectionNumber: Int): PlaceholderFragment {
-                val fragment = PlaceholderFragment()
+            fun newInstance(sectionNumber: Int): Section2Fragment {
+                val fragment = Section2Fragment()
                 val args = Bundle()
                 args.putInt(ARG_SECTION_NUMBER, sectionNumber)
                 fragment.arguments = args
@@ -57,4 +33,3 @@ class SectionsPagerAdapter constructor(fm: FragmentManager) : FragmentPagerAdapt
             }
         }
     }
-}

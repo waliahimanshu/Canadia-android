@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#d32f2f</color>
+    <color name="colorPrimaryDark">#9a0007</color>
+    <color name="colorAccent">#ff6659</color>
+    <color name="primaryLightColor">#ff6659</color>
+    <color name="primaryTextColor">#ffffff</color>
+
+    <color name="textHeader">#7F8694</color>
+
 
     <!--Light Background Dark Text-->
     <color name="light_bg_dark_primary_text">#DE000000</color>
@@ -292,9 +297,6 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-
-    <color name="selected">#a8cf45</color>
-    <color name="unselected">#ff8cae3b</color>
 
     <color name="text_tertiary_dark">#61000000</color> <!-- 38% -->
     <color name="text_primary_light">#ffffffff</color>

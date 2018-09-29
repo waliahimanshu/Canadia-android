@@ -27,5 +27,4 @@ class CanadiaApplication : Application(), HasActivityInjector {
     override fun activityInjector(): AndroidInjector<Activity> {
         return activityDispatchingAndroidInjector
     }
-
 }

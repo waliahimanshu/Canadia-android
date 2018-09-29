@@ -25,21 +25,17 @@ import com.waliahimanshu.canadia.ui.home.ExpressEntryActivity
 
 class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
-
     private val tag = LoginActivity::class.java.simpleName
     private var googleApiClient: GoogleApiClient? = null
     private var firebaseAuth: FirebaseAuth? = null
     private lateinit var signInButton: SignInButton
 
-
     companion object {
         private const val RC_SIGN_IN = 1
-
         fun getLaunchIntent(context: Context): Intent {
             return Intent(context, LoginActivity::class.java)
         }
     }
-
 
     /**
      *  Check for existing Google Sign In account, if the user is already signed in
@@ -63,10 +59,9 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
         val textView = signInButton.getChildAt(0) as TextView
         textView.setText(R.string.signup_with_google)
-        signInButton.setOnClickListener(
-                {
-                    signIn()
-                })
+        signInButton.setOnClickListener {
+            signIn()
+        }
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -77,9 +72,6 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         googleApiClient = GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build()
-
-        // Initialize FirebaseAuth
-        firebaseAuth = FirebaseAuth.getInstance()
 
     }
 
@@ -93,7 +85,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -130,8 +122,8 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         Log.d(tag, "firebaseAuthWithGoogle:" + acct.id!!)
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        firebaseAuth!!.signInWithCredential(credential)
-                .addOnCompleteListener { task: Task<AuthResult> ->
+        firebaseAuth?.signInWithCredential(credential)
+                ?.addOnCompleteListener { task: Task<AuthResult> ->
                     // If sign in fails, display a message to the user. If sign in succeeds
                     // the auth state listener will be notified and logic to handle the
                     // signed in user can be handled in the listener.
@@ -144,6 +136,4 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     }
                 }
     }
-
-
 }

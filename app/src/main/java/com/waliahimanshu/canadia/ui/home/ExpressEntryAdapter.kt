@@ -1,53 +1,78 @@
 package com.waliahimanshu.canadia.ui.home
 
+import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.waliahimanshu.canadia.ui.R
-import kotlinx.android.synthetic.main.cic_ee_rounds_item_list_content.view.*
-
-class ExpressEntryAdapter :
-        RecyclerView.Adapter<ExpressEntryAdapter.ViewHolder> {
-
-    private val parentActivity: ExpressEntryActivity
-    private val twoPane: Boolean
-    private val itemList: ArrayList<ExpressEntryModel>
-
-    constructor(parentActivity: ExpressEntryActivity, twoPane: Boolean, itemList: ArrayList<ExpressEntryModel>) : super() {
-        this.parentActivity = parentActivity
-        this.twoPane = twoPane
-        this.itemList = itemList
-    }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.cic_ee_rounds_item_list_content, parent, false)
-        return ViewHolder(view)
-    }
+class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
+                          private val twoPane: Boolean,
+                          private val dataSet: ArrayList<ExpressEntryModel>) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = itemList[position]
-        holder.crsDrawDate.text = item.crsDrawDate.substringBefore("at").trim()
-        holder.crsValue.text = item.crsScore
-//        holder.numberOfIta.text = item.totalItaIssued
-//        holder.tieBreakerDate.text = item.tieBreakerDate
 
-        with(holder.itemView) {
-            tag = item
+    private val onItemClickListener = View.OnClickListener { view ->
+        val item = view.tag as ExpressEntryModel
+        if (this.twoPane) {
+            val arguments = Bundle()
+//            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.year)
+            val fragment = ItemDetailFragment()
+            fragment.arguments = arguments
+            parentActivity.supportFragmentManager.beginTransaction().replace(R.id.item_detail_container,
+                    fragment).commit()
+        } else {
+            val context = view.context
+            val intent = Intent(context, ItemDetailActivity::class.java)
+//            intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.year)
+
+            context.startActivity(intent)
         }
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
+
+    override fun getItemViewType(position: Int): Int {
+        return dataSet[position].getItemViewType()
     }
 
-    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-        val crsDrawDate: TextView = mView.crs_draw_date
-            val crsValue: TextView = mView.crs_value
-//        val numberOfIta: TextView = mView.ita_issued
-//        val tieBreakerDate: TextView = mView.tie_braking_date
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ViewHolderFactory.create(parent, viewType)
     }
+
+    override fun onBindViewHolder(holderItem: RecyclerView.ViewHolder, position: Int) {
+        var model: Unit? = null
+
+            model = dataSet[position].onBindViewHolder(holderItem)
+
+
+//        if (model is MonthModel) {
+//            val dateViewHolder = holderItem as DateViewHolder
+//            dateViewHolder.month.text = model.month
+//
+//        }
+//
+//        if (model is DataItemsModel) {
+//            val itemViewHolder = holderItem as ItemViewHolder
+//
+//            itemViewHolder.crsValue.text = model.crsScore
+//            itemViewHolder.crsDrawDate.text = model.date.toString()
+////            itemViewHolder.numberOfIta.text = model.totalItaIssued
+////           itemViewHolder.tieBreakerDate.text = model.tieBreakerDate
+//        }
+
+        with(holderItem.itemView) {
+            tag = model
+            setOnClickListener(onItemClickListener)
+
+        }
+
+    }
+
+    override fun getItemCount(): Int {
+        return dataSet.size
+    }
+
+
 }

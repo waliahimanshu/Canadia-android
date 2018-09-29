@@ -1,6 +1,7 @@
 package com.waliahimanshu.canadia.ui.home
 
 import com.google.firebase.database.*
+import java.util.*
 import javax.inject.Inject
 
 
@@ -8,52 +9,47 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
                                                 private val eeCrsReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
-    var currentYearList: ArrayList<ExpressEntryModel> = arrayListOf()
-    val allYearMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
 
     private val singleValueEventListener: ValueEventListener = object : ValueEventListener {
-        lateinit var allItemList: ArrayList<ExpressEntryModel>
+        lateinit var allItemList: ArrayList<ExpressEntryDTO>
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val child = dataSnapshot.children
-            for (item: DataSnapshot in child) {
-                allItemList = ArrayList()
-                for (element: DataSnapshot in item.children) {
-                    val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
-                    if (invitationModel != null) {
-                        allItemList.add(invitationModel)
-                    }
+            val child = dataSnapshot.child("2018").children
+            allItemList = ArrayList()
+            for (element: DataSnapshot in child) {
+                val invitationDTO: ExpressEntryDTO? = element.getValue(ExpressEntryDTO::class.java)
+                if (invitationDTO != null) {
+                    allItemList.add(invitationDTO)
                 }
-                allYearMap[item.key] = allItemList
             }
             if (allItemList.isEmpty()) {
                 mainView.showEmptyState()
+            } else {
+                mainView.showProgressBar(false)
+                val model = mapper.map(allItemList)
+
+                mainView.loadInitCurrentYearData(model)
             }
         }
 
-        override fun onCancelled(dataSnapshot: DatabaseError?) {
-            val message = dataSnapshot?.message
+        override fun onCancelled(dataSnapshot: DatabaseError) {
+            val message = dataSnapshot.message
             mainView.handleDatabaseLoadError(message)
         }
     }
 
+    override fun loadData() {
+        start()
+    }
 
     private var childEventListener: ChildEventListener = object : ChildEventListener {
         override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+            val invitationDTO: ExpressEntryDTO? = dataSnapshot.getValue(ExpressEntryDTO::class.java)
 
-//            if(allYearMap.get("2018")?.isEmpty()){  }
-
-
-            val invitationModel: ExpressEntryModel? = dataSnapshot.getValue(ExpressEntryModel::class.java)
-
-            if (invitationModel != null) {
-                invitationModel.year = dataSnapshot.key
-                currentYearList.add(invitationModel)
-                mainView.showProgressBar(false)
-                mainView.showData(currentYearList)
-//                mainView.setToolbarTitle()
-
+            // onChild added is called for each child first time the app runs and after when the child is
+            // added
+            if (invitationDTO != null) {
+                // new item added do stuff ??
             }
-
         }
 
         override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -71,23 +67,13 @@ class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEnt
 
     override fun start() {
         eeCrsReference.orderByKey()
-        eeCrsReference.child("2018").addChildEventListener(childEventListener)
+//        eeCrsReference.child("2018").addChildEventListener(childEventListener)
         eeCrsReference.addListenerForSingleValueEvent(singleValueEventListener)
-    }
-
-    override fun showDataFor(year: String) {
-        mainView.showProgressBar(false)
-        val yearData = allYearMap[year]
-        if (yearData != null) {
-            mainView.showData(yearData)
-            mainView.setToolbarTitle(year)
-        }
     }
 
     override fun stop() {
 
     }
-
 
     override fun onDestroy() {
         eeCrsReference.removeEventListener(childEventListener)

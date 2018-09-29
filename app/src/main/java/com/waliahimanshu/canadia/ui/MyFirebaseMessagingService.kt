@@ -14,14 +14,13 @@ import com.google.firebase.messaging.RemoteMessage
 import com.waliahimanshu.canadia.ui.home.ExpressEntryActivity
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-    private val TAG = "MyFirebaseMsgService"
 
+    private val TAG = "MyFirebaseMsgService"
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         Log.d(TAG, "From: " + remoteMessage?.from)
+
         super.onMessageReceived(remoteMessage)
-
-
         val messageBody = remoteMessage?.notification?.body
         val map = remoteMessage?.data
 
@@ -56,7 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // Since android Oreo notification channel is needed.
         createNotificationChannel()
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+        notificationManager.notify(0 , notificationBuilder.build())
     }
 
     private fun createNotificationChannel() {

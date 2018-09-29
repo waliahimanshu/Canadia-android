@@ -2,24 +2,24 @@ package com.waliahimanshu.canadia.ui.home
 
 import android.support.v7.util.DiffUtil
 
-class MyDiffCallback(private var newExpressEntryModel: List<ExpressEntryModel>,
-                     private var oldExpressEntryModel: List<ExpressEntryModel>) : DiffUtil.Callback() {
+class MyDiffCallback(private var newExpressEntryData: List<ExpressEntryDTO>,
+                     private var oldExpressEntryData: List<ExpressEntryDTO>) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {
-        return oldExpressEntryModel.size
+        return oldExpressEntryData.size
 
     }
 
     override fun getNewListSize(): Int {
-        return newExpressEntryModel.size
+        return newExpressEntryData.size
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldExpressEntryModel[oldItemPosition].crsDrawDate == newExpressEntryModel[newItemPosition].crsDrawDate
+        return oldExpressEntryData[oldItemPosition].crsDrawDate == newExpressEntryData[newItemPosition].crsDrawDate
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldExpressEntryModel[oldItemPosition] == newExpressEntryModel[newItemPosition]
+        return oldExpressEntryData[oldItemPosition] == newExpressEntryData[newItemPosition]
     }
 
     override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
