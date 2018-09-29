@@ -4,7 +4,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.waliahimanshu.canadia.di.scopes.PerActivity
 import com.waliahimanshu.canadia.ui.home.ExpressEntryActivity
 import com.waliahimanshu.canadia.ui.home.ExpressEntryContract
-import com.waliahimanshu.canadia.ui.home.ExpressEntryMapper
 import com.waliahimanshu.canadia.ui.home.ExpressEntryPresenter
 import dagger.Module
 import dagger.Provides
@@ -24,12 +23,11 @@ open class ExpressEntryActivityModule {
 
     @PerActivity
     @Provides
-    internal fun provideExpressEntryPresenter(mainView: ExpressEntryContract.View,
-                                              mapper: ExpressEntryMapper):
+    internal fun provideExpressEntryPresenter(mainView: ExpressEntryContract.View):
             ExpressEntryContract.Presenter {
 
         return ExpressEntryPresenter(mainView,
-                FirebaseDatabase.getInstance().reference.child("ee_crs"), mapper)
+                FirebaseDatabase.getInstance().reference.child("ee_crs"))
     }
 
 }

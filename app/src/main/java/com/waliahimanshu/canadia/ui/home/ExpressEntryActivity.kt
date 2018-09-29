@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
@@ -27,8 +26,8 @@ import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
 import kotlinx.android.synthetic.main.menu_filter_layout.*
+import java.util.*
 import javax.inject.Inject
-
 
 class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, GoogleApiClient.OnConnectionFailedListener {
 
@@ -49,7 +48,6 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         fun getLaunchIntent(context: Context): Intent {
             return Intent(context, ExpressEntryActivity::class.java)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,7 +83,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
     override fun onStart() {
         super.onStart()
-        expressEntryPresenter.loadData();
+        expressEntryPresenter.start()
     }
 
     override fun setPresenter(presenter: ExpressEntryContract.Presenter) {
@@ -102,7 +100,7 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         googleApiAvailability.makeGooglePlayServicesAvailable(this)
     }
 
-    override fun loadInitCurrentYearData(dataSet: ArrayList<ExpressEntryModel>) {
+    override fun loadInitCurrentYearData(dataSet: java.util.ArrayList<ExpressEntryDTO>) {
         if (dataSet.isEmpty()) {
             showEmptyState()
 
@@ -110,7 +108,6 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
             recyler_view.visibility = VISIBLE
             no_result.visibility = GONE
             setupRecyclerView(dataSet)
-            runLayoutAnimation(recyler_view)
         }
     }
 
@@ -124,31 +121,25 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
     override fun showEmptyState() {
         recyler_view.visibility = GONE
-        no_result.visibility = VISIBLE
+       no_result.visibility = VISIBLE
 
     }
 
-    private fun setupRecyclerView(dataSet: ArrayList<ExpressEntryModel>) {
+    private fun setupRecyclerView(dataSet: ArrayList<ExpressEntryDTO>) {
         val linearLayoutManager = LinearLayoutManager(baseContext);
-        expressEntryAdapter = ExpressEntryAdapter(this, twoPane, dataSet)
+        expressEntryAdapter = ExpressEntryAdapter(dataSet)
 
-//        linearLayoutManager.reverseLayout = true
-//        linearLayoutManager.stackFromEnd = true
         recyler_view.layoutManager = linearLayoutManager
         recyler_view.adapter = expressEntryAdapter
 
-    }
-
-    private fun runLayoutAnimation(recyclerView: RecyclerView) {
-        val context = recyclerView.context
+        val context = recyler_view.context
         val loadLayoutAnimation =
                 AnimationUtils.loadLayoutAnimation(context, R.anim.layout_fall_down)
 
-        recyclerView.layoutAnimation = loadLayoutAnimation
-        recyclerView.adapter?.notifyDataSetChanged()
-        recyclerView.scheduleLayoutAnimation()
+        recyler_view.layoutAnimation = loadLayoutAnimation
+        recyler_view.adapter?.notifyDataSetChanged()
+        recyler_view.scheduleLayoutAnimation()
     }
-
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
         Log.d("ExpressEntryActivity", "onConnectionFailed:" + connectionResult.errorMessage)

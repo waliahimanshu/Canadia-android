@@ -119,10 +119,20 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Log.d(tag, "firebaseAuthWithGoogle:" + acct.id!!)
+        Log.d(tag, "firebaseAuthWithGoogle:" + acct.id)
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        firebaseAuth?.signInWithCredential(credential)
+
+        firebaseAuth?.signInWithCredential(credential)?.addOnSuccessListener {
+
+            Toast.makeText(this, it.additionalUserInfo.username + it.user.isAnonymous, Toast.LENGTH_SHORT).show()
+
+            startActivity(ExpressEntryActivity.getLaunchIntent(this))
+            finish()
+
+        }?.addOnFailureListener {
+            Toast.makeText(this, it.message + it.cause, Toast.LENGTH_SHORT).show()
+        }
                 ?.addOnCompleteListener { task: Task<AuthResult> ->
                     // If sign in fails, display a message to the user. If sign in succeeds
                     // the auth state listener will be notified and logic to handle the
@@ -131,8 +141,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                         Log.w(tag, "signInWithCredential", task.exception)
                         Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
                     } else {
-                        startActivity(ExpressEntryActivity.getLaunchIntent(this))
-                        finish()
+
                     }
                 }
     }

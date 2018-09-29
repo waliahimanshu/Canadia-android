@@ -1,78 +1,38 @@
 package com.waliahimanshu.canadia.ui.home
 
-import android.content.Intent
-import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.waliahimanshu.canadia.ui.R
+import kotlinx.android.synthetic.main.ee_item_list_content.view.*
+import java.util.*
 
 
-class ExpressEntryAdapter(private val parentActivity: ExpressEntryActivity,
-                          private val twoPane: Boolean,
-                          private val dataSet: ArrayList<ExpressEntryModel>) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ExpressEntryAdapter(private val dataSet: ArrayList<ExpressEntryDTO>) :
+        RecyclerView.Adapter<ExpressEntryAdapter.ItemViewHolder>() {
 
 
-    private val onItemClickListener = View.OnClickListener { view ->
-        val item = view.tag as ExpressEntryModel
-        if (this.twoPane) {
-            val arguments = Bundle()
-//            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.year)
-            val fragment = ItemDetailFragment()
-            fragment.arguments = arguments
-            parentActivity.supportFragmentManager.beginTransaction().replace(R.id.item_detail_container,
-                    fragment).commit()
-        } else {
-            val context = view.context
-            val intent = Intent(context, ItemDetailActivity::class.java)
-//            intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.year)
-
-            context.startActivity(intent)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.ee_item_list_content, parent, false)
+        return ItemViewHolder(view)
     }
 
+    override fun onBindViewHolder(itemViewHolder: ItemViewHolder, position: Int) {
 
-    override fun getItemViewType(position: Int): Int {
-        return dataSet[position].getItemViewType()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolderFactory.create(parent, viewType)
-    }
-
-    override fun onBindViewHolder(holderItem: RecyclerView.ViewHolder, position: Int) {
-        var model: Unit? = null
-
-            model = dataSet[position].onBindViewHolder(holderItem)
-
-
-//        if (model is MonthModel) {
-//            val dateViewHolder = holderItem as DateViewHolder
-//            dateViewHolder.month.text = model.month
-//
-//        }
-//
-//        if (model is DataItemsModel) {
-//            val itemViewHolder = holderItem as ItemViewHolder
-//
-//            itemViewHolder.crsValue.text = model.crsScore
-//            itemViewHolder.crsDrawDate.text = model.date.toString()
-////            itemViewHolder.numberOfIta.text = model.totalItaIssued
-////           itemViewHolder.tieBreakerDate.text = model.tieBreakerDate
-//        }
-
-        with(holderItem.itemView) {
-            tag = model
-            setOnClickListener(onItemClickListener)
-
-        }
-
+        itemViewHolder.crsValue.text = dataSet[position].crsScore
+        itemViewHolder.crsDrawDate.text = dataSet[position].crsDrawDate
+        itemViewHolder.numberOfIta.text = dataSet[position].totalItaIssued
     }
 
     override fun getItemCount(): Int {
         return dataSet.size
     }
 
-
+    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        internal val crsDrawDate: TextView = view.crs_draw_date
+        internal val crsValue: TextView = view.crs_value
+        internal val numberOfIta: TextView = view.ita_issued
+    }
 }
