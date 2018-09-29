@@ -1,86 +1,81 @@
 package com.waliahimanshu.canadia.ui.home
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import java.util.*
 import javax.inject.Inject
 
 
 class ExpressEntryPresenter @Inject constructor(private val mainView: ExpressEntryContract.View,
-                                                private val databaseReference: DatabaseReference,
+                                                private val eeCrsReference: DatabaseReference,
                                                 mapper: ExpressEntryMapper) : ExpressEntryContract.Presenter {
 
-    val hashMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
-    private var filterListMap: LinkedHashMap<String, ArrayList<ExpressEntryModel>> = LinkedHashMap()
 
-    private val value: ValueEventListener = object : ValueEventListener {
-        lateinit var allItemList: ArrayList<ExpressEntryModel>
+    private val singleValueEventListener: ValueEventListener = object : ValueEventListener {
+        lateinit var allItemList: ArrayList<ExpressEntryDTO>
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val child = dataSnapshot.children
-            for (item: DataSnapshot in child) {
-                allItemList = ArrayList()
-                for (element: DataSnapshot in item.children) {
-                    val invitationModel: ExpressEntryModel? = element.getValue(ExpressEntryModel::class.java)
-                    if (invitationModel != null) {
-                        allItemList.add(invitationModel)
-                    }
+            val child = dataSnapshot.child("2018").children
+            allItemList = ArrayList()
+            for (element: DataSnapshot in child) {
+                val invitationDTO: ExpressEntryDTO? = element.getValue(ExpressEntryDTO::class.java)
+                if (invitationDTO != null) {
+                    allItemList.add(invitationDTO)
                 }
-                hashMap[item.key] = allItemList
             }
             if (allItemList.isEmpty()) {
                 mainView.showEmptyState()
             } else {
-                filterListMap.putAll(hashMap)
-                handleSuccess(hashMap)
+                mainView.showProgressBar(false)
+                val model = mapper.map(allItemList)
+
+                mainView.loadInitCurrentYearData(model)
             }
         }
 
-        override fun onCancelled(dataSnapshot: DatabaseError?) {
-            val message = dataSnapshot?.message
+        override fun onCancelled(dataSnapshot: DatabaseError) {
+            val message = dataSnapshot.message
             mainView.handleDatabaseLoadError(message)
         }
     }
 
-    override fun loadDataFor(year: String) {
-        val value = hashMap[year]
+    override fun loadData() {
+        start()
+    }
 
-        if (value != null) {
-            filterListMap[year] = value
+    private var childEventListener: ChildEventListener = object : ChildEventListener {
+        override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+            val invitationDTO: ExpressEntryDTO? = dataSnapshot.getValue(ExpressEntryDTO::class.java)
+
+            // onChild added is called for each child first time the app runs and after when the child is
+            // added
+            if (invitationDTO != null) {
+                // new item added do stuff ??
+            }
         }
-        mainView.showData(filterListMap)
+
+        override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+        }
+
+        override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+        }
     }
 
-
-    override fun removeDataFor(year: String) {
-        filterListMap.remove(year)
-        mainView.showData(filterListMap)
+    override fun start() {
+        eeCrsReference.orderByKey()
+//        eeCrsReference.child("2018").addChildEventListener(childEventListener)
+        eeCrsReference.addListenerForSingleValueEvent(singleValueEventListener)
     }
-
 
     override fun stop() {
 
     }
 
-    override fun start() {
-        loadData()
-    }
-
-
-    private fun loadData() {
-        if (!hashMap.isEmpty()) {
-            handleSuccess(hashMap)
-        }
-        databaseReference.orderByKey()
-        databaseReference.addListenerForSingleValueEvent(value)
-    }
-
     override fun onDestroy() {
-        databaseReference.removeEventListener(value)
-    }
-
-    private fun handleSuccess(itemHashMap: HashMap<String, ArrayList<ExpressEntryModel>>) {
-        mainView.showProgressBar(false)
-        mainView.showData(itemHashMap)
+        eeCrsReference.removeEventListener(childEventListener)
     }
 }

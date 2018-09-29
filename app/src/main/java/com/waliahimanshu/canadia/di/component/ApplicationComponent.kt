@@ -11,7 +11,10 @@ import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 
 @PerApplication
-@Component(modules = [(ActivityBindingModule::class), (WalkthroughActivityBinding::class), (ApplicationModule::class), (AndroidSupportInjectionModule::class)])
+@Component(modules = [(ActivityBindingModule::class),
+                      (WalkthroughActivityBinding::class),
+                      (ApplicationModule::class),
+                      (AndroidSupportInjectionModule::class)])
 interface ApplicationComponent {
 
     @Component.Builder
@@ -23,5 +26,4 @@ interface ApplicationComponent {
     }
 
     fun inject(app: CanadiaApplication)
-
 }

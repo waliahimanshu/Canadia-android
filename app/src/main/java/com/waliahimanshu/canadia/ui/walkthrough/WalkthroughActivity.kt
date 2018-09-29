@@ -10,7 +10,6 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import com.waliahimanshu.canadia.ui.R
-import com.waliahimanshu.canadia.ui.home.ExpressEntryActivity
 import com.waliahimanshu.canadia.ui.login.LoginActivity
 import com.waliahimanshu.canadia.util.PreferencesHelper
 import dagger.android.AndroidInjection
@@ -66,7 +65,7 @@ class WalkthroughActivity :  AppCompatActivity(), ViewPager.OnPageChangeListener
         nextButton?.setOnClickListener { viewPager?.setCurrentItem(viewPager?.currentItem!!.plus(1), true) }
         previousButton?.setOnClickListener { viewPager?.setCurrentItem(viewPager?.currentItem!!.minus(1), true) }
         finishButton?.setOnClickListener {
-            startActivity(ExpressEntryActivity.getLaunchIntent(this))
+            startActivity(LoginActivity.getLaunchIntent(this))
             preferenceHelper.isWalkthroughShown = true
         }
 

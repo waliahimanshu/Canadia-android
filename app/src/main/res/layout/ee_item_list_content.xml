@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/ripple"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/crs_draw_date"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textColor="@color/textHeader"
+        tools:text="February 7, 2018" />
+
+    <TextView
+        android:id="@+id/ita_issued"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textColor="@color/red_400"
+        tools:text="4000" />
+
+    <TextView
+        android:id="@+id/crs_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textIsSelectable="false"
+        android:textAlignment="center"
+        android:fontFamily="@font/roboto_bold"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textColor="@color/red_600"
+        android:textColorHighlight="@color/red_700"
+        android:textSize="18sp"
+        tools:ignore="RelativeOverlap"
+        tools:text="442" />
+</LinearLayout>
+
+

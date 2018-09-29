@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.waliahimanshu.canadia.ui.R
 import kotlinx.android.synthetic.main.activity_item_detail.*
-import kotlinx.android.synthetic.main.item_detail.view.*
 
 /**
  * A fragment representing a single Item detail screen.
@@ -21,17 +20,13 @@ class ItemDetailFragment : Fragment() {
     /**
      * The dummy content this fragment is presenting.
      */
-    private var mItem: ExpressEntryModel? = null
+    private var mItem: ExpressEntryDTO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-//                mItem = DummyContent.ITEM_MAP[it.getInt(ARG_ITEM_ID)]
                 activity?.toolbar_layout?.title = mItem?.crsScore
             }
         }
@@ -43,7 +38,7 @@ class ItemDetailFragment : Fragment() {
 
         // Show the dummy content as text in a TextView.
         mItem?.let {
-            rootView.item_detail.text = it.crsDrawDate
+//            rootView.item_detail.text = it.crsDrawDate
         }
 
         return rootView
