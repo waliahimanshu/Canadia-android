@@ -33,9 +33,6 @@ import javax.inject.Inject
 
 class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, GoogleApiClient.OnConnectionFailedListener {
 
-    override fun setToolbarTitle(year: String) {
-    }
-
     private lateinit var expressEntryAdapter: ExpressEntryAdapter
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var mGoogleApiClient: GoogleApiClient
@@ -62,14 +59,6 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
         AndroidInjection.inject(this)
         setSupportActionBar(toolbar)
-
-//        if (item_detail_container != null) {
-//            // The detail container view will be present only in the
-//            // large-screen layouts (res/values-w900dp).
-//            // If this view is present, then the
-//            // activity should be in two-pane mode.
-//            twoPane = true
-//        }
 
         sign_out.setOnClickListener {
             currentUser?.photoUrl
@@ -122,8 +111,12 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
     override fun showEmptyState() {
         recyler_view.visibility = GONE
-       no_result.visibility = VISIBLE
+        no_result.visibility = VISIBLE
 
+    }
+
+    override fun setToolbarTitle(year: String) {
+        toolbar.title = year
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

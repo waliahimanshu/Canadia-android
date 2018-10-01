@@ -1,4 +1,4 @@
-package com.waliahimanshu.canadia.ui.login
+package com.waliahimanshu.canadia.util
 
 import android.content.Context
 import android.support.v4.app.FragmentActivity

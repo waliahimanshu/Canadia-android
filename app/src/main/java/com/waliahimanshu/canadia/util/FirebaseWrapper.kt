@@ -1,4 +1,4 @@
-package com.waliahimanshu.canadia.ui.login
+package com.waliahimanshu.canadia.util
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task

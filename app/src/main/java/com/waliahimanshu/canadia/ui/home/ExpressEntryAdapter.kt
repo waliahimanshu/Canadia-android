@@ -20,7 +20,6 @@ class ExpressEntryAdapter(private val dataSet: ArrayList<ExpressEntryDTO>) :
     }
 
     override fun onBindViewHolder(itemViewHolder: ItemViewHolder, position: Int) {
-
         itemViewHolder.crsValue.text = dataSet[position].crsScore
         itemViewHolder.crsDrawDate.text = dataSet[position].crsDrawDate
         itemViewHolder.numberOfIta.text = dataSet[position].totalItaIssued

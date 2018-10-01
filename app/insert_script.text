@@ -11,8 +11,8 @@ firebase database:push /ee_crs/2018 --data '{
                 "tie_breaker_date" : "" }'
 
 
-                firebase database:push /ee_crs/2018 --data '{
-                                "crs_draw_date" : "April 11, 2018",
-                                "crs_score" : "444",
-                                "ita_issues" : "3500",
-                                "tie_breaker_date" : "" }'
+firebase database:push /ee_crs/2018 --data '{
+"crs_draw_date" : "September 19, 2018",
+"crs_score" : "441",
+"ita_issues" : "3,500",
+"tie_breaker_date" : "" }'

@@ -7,6 +7,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult.NETWORK_ERROR
 import com.google.android.gms.common.api.GoogleApiClient
+import com.waliahimanshu.canadia.util.FirebaseWrapper
+import com.waliahimanshu.canadia.util.GoogleApiClientWrapper
 import javax.inject.Inject
 
 private const val RC_SIGN_IN = 1
@@ -16,8 +18,6 @@ class LoginPresenter @Inject constructor(private val view: LoginContract.View,
                                          private val wrapper: GoogleApiClientWrapper,
                                          private val firebaseWrapper: FirebaseWrapper) : LoginContract.Presenter {
 
-
-    // state/field in presenter???
     private var googleApiClient: GoogleApiClient? = null
 
     override fun onStart() {

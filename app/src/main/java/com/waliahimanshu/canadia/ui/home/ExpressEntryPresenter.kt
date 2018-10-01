@@ -16,7 +16,8 @@ class ExpressEntryPresenter @Inject constructor(private val view: ExpressEntryCo
 
         lateinit var allItemList: ArrayList<ExpressEntryDTO>
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val child = dataSnapshot.child("2018").children
+            val year = Calendar.getInstance().get(Calendar.YEAR).toString()
+            val child = dataSnapshot.child(year).children
             allItemList = ArrayList()
             for (element: DataSnapshot in child) {
                 val invitationDTO: ExpressEntryDTO? = element.getValue(ExpressEntryDTO::class.java)
@@ -29,6 +30,7 @@ class ExpressEntryPresenter @Inject constructor(private val view: ExpressEntryCo
             } else {
                 view.showProgressBar(false)
                 view.loadInitCurrentYearData(allItemList)
+                view.setToolbarTitle(year)
             }
         }
 
@@ -42,7 +44,6 @@ class ExpressEntryPresenter @Inject constructor(private val view: ExpressEntryCo
         start()
     }
 
-
     override fun start() {
         eeCrsReference.orderByKey()
         eeCrsReference.addListenerForSingleValueEvent(singleValueEventListener)
@@ -53,5 +54,6 @@ class ExpressEntryPresenter @Inject constructor(private val view: ExpressEntryCo
     }
 
     override fun onDestroy() {
+        eeCrsReference.removeEventListener(singleValueEventListener)
     }
 }

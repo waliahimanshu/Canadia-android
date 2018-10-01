@@ -4,7 +4,11 @@ package com.waliahimanshu.canadia.di.module
 
 import com.google.firebase.auth.FirebaseAuth
 import com.waliahimanshu.canadia.di.scopes.PerActivity
-import com.waliahimanshu.canadia.ui.login.*
+import com.waliahimanshu.canadia.ui.login.LoginActivity
+import com.waliahimanshu.canadia.ui.login.LoginContract
+import com.waliahimanshu.canadia.ui.login.LoginPresenter
+import com.waliahimanshu.canadia.util.FirebaseWrapper
+import com.waliahimanshu.canadia.util.GoogleApiClientWrapper
 import dagger.Module
 import dagger.Provides
 
