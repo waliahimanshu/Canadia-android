@@ -8,11 +8,13 @@ interface LoginContract {
         fun signIn()
         fun onStart()
         fun init()
-
+        fun handleGoogleSignInResult(data: Intent?, requestCode: Int)
     }
 
     interface View {
         fun launchMainActivity()
         fun startActivityForResult(signInIntent: Intent?)
+        fun showNetworkFailureError()
+        fun showGenericError()
     }
 }

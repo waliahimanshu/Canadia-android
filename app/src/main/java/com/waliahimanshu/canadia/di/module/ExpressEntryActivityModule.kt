@@ -14,7 +14,7 @@ import dagger.Provides
  */
 @Suppress("unused")
 @Module
-open class ExpressEntryActivityModule {
+class ExpressEntryActivityModule {
 
     @PerActivity
     @Provides

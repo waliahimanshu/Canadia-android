@@ -2,25 +2,24 @@
 
 package com.waliahimanshu.canadia.di.module
 
+import com.google.firebase.auth.FirebaseAuth
 import com.waliahimanshu.canadia.di.scopes.PerActivity
-import com.waliahimanshu.canadia.ui.login.LoginActivity
-import com.waliahimanshu.canadia.ui.login.LoginContract
-import com.waliahimanshu.canadia.ui.login.LoginPresenter
+import com.waliahimanshu.canadia.ui.login.*
 import dagger.Module
 import dagger.Provides
 
 @Module
-interface LoginActivityModule {
+class LoginActivityModule {
 
     @PerActivity
     @Provides
-    fun provideHomeView(loginActivity: LoginActivity): LoginContract.View {
+    fun provideLoginActivityView(loginActivity: LoginActivity): LoginContract.View {
         return loginActivity
     }
 
     @PerActivity
     @Provides
-    fun provideExpressEntryPresenter(view: LoginContract.View): LoginContract.Presenter {
-        return LoginPresenter(view)
+    fun provideLoginActivityPresenter(view: LoginActivity): LoginContract.Presenter {
+        return LoginPresenter(view, GoogleApiClientWrapper(view), FirebaseWrapper(FirebaseAuth.getInstance()))
     }
 }
