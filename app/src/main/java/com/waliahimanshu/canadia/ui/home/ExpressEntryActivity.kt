@@ -3,9 +3,12 @@ package com.waliahimanshu.canadia.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -22,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.waliahimanshu.canadia.ui.R
 import com.waliahimanshu.canadia.ui.login.LoginActivity
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_item_detail.*
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
 import kotlinx.android.synthetic.main.menu_filter_layout.*
@@ -34,7 +36,6 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
     override fun setToolbarTitle(year: String) {
     }
 
-    private var twoPane: Boolean = false
     private lateinit var expressEntryAdapter: ExpressEntryAdapter
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var mGoogleApiClient: GoogleApiClient
@@ -62,13 +63,13 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
         AndroidInjection.inject(this)
         setSupportActionBar(toolbar)
 
-        if (item_detail_container != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            twoPane = true
-        }
+//        if (item_detail_container != null) {
+//            // The detail container view will be present only in the
+//            // large-screen layouts (res/values-w900dp).
+//            // If this view is present, then the
+//            // activity should be in two-pane mode.
+//            twoPane = true
+//        }
 
         sign_out.setOnClickListener {
             currentUser?.photoUrl
@@ -125,8 +126,22 @@ class ExpressEntryActivity : AppCompatActivity(), ExpressEntryContract.View, Goo
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.home_menu_filter, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_filter -> {
+                drawerLayout.openDrawer(GravityCompat.END)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
     private fun setupRecyclerView(dataSet: ArrayList<ExpressEntryDTO>) {
-        val linearLayoutManager = LinearLayoutManager(baseContext);
+        val linearLayoutManager = LinearLayoutManager(baseContext)
         expressEntryAdapter = ExpressEntryAdapter(dataSet)
 
         recyler_view.layoutManager = linearLayoutManager

@@ -8,7 +8,6 @@ import com.google.firebase.iid.FirebaseInstanceIdService
 
 class MyFirebaseInstanceIDService : FirebaseInstanceIdService() {
 
-
     companion object {
         private const val TAG = "MyFirebaseIIDService"
     }

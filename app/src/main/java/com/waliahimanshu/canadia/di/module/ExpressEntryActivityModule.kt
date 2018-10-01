@@ -12,6 +12,7 @@ import dagger.Provides
 /**
  * Module used to provide dependencies at an activity-level.
  */
+@Suppress("unused")
 @Module
 open class ExpressEntryActivityModule {
 
@@ -23,11 +24,7 @@ open class ExpressEntryActivityModule {
 
     @PerActivity
     @Provides
-    internal fun provideExpressEntryPresenter(mainView: ExpressEntryContract.View):
-            ExpressEntryContract.Presenter {
-
-        return ExpressEntryPresenter(mainView,
-                FirebaseDatabase.getInstance().reference.child("ee_crs"))
+    internal fun provideExpressEntryPresenter(mainView: ExpressEntryContract.View): ExpressEntryContract.Presenter {
+        return ExpressEntryPresenter(mainView, FirebaseDatabase.getInstance().reference.child("ee_crs"))
     }
-
 }

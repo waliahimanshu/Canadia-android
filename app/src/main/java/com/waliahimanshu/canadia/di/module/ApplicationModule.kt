@@ -10,6 +10,7 @@ import dagger.Provides
 /**
  * Module used to provide dependencies at an application-level.
  */
+@Suppress("unused")
 @Module
 open class ApplicationModule {
 
