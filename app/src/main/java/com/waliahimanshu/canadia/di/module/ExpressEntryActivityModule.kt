@@ -25,6 +25,8 @@ class ExpressEntryActivityModule {
     @PerActivity
     @Provides
     internal fun provideExpressEntryPresenter(mainView: ExpressEntryContract.View): ExpressEntryContract.Presenter {
-        return ExpressEntryPresenter(mainView, FirebaseDatabase.getInstance().reference.child("ee_crs"))
+        val eeCrsReference = FirebaseDatabase.getInstance().reference.child("ee_crs")
+        eeCrsReference.keepSynced(true)
+        return ExpressEntryPresenter(mainView, eeCrsReference)
     }
 }
